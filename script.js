@@ -159,13 +159,16 @@ function create3DChurch() {
     towerRoof.position.set(0, 200, 0); // Position on top of tower base
     church.add(towerRoof);
 
-    // Cross on Tower (Increased size and changed color)
-    const crossBar1 = new THREE.Mesh(new THREE.BoxGeometry(12, 48, 6), crossMaterial); // Slightly larger
-    const crossBar2 = new THREE.Mesh(new THREE.BoxGeometry(48, 12, 6), crossMaterial); // Slightly larger
-    crossBar2.rotation.z = Math.PI / 2; // Horizontal bar
+    // Cross on Tower (Increased size and corrected rotation for horizontal bar)
+    // Vertical bar
+    const crossBarVertical = new THREE.Mesh(new THREE.BoxGeometry(15, 60, 8), crossMaterial); // Thicker and taller
+    // Horizontal bar
+    const crossBarHorizontal = new THREE.Mesh(new THREE.BoxGeometry(60, 15, 8), crossMaterial); // Thicker and wider
+    // No rotation needed for the horizontal bar if its geometry is already oriented correctly
+
     const crossGroup = new THREE.Group();
-    crossGroup.add(crossBar1);
-    crossGroup.add(crossBar2);
+    crossGroup.add(crossBarVertical);
+    crossGroup.add(crossBarHorizontal);
     crossGroup.position.set(0, 240, 0); // Position above tower roof
     church.add(crossGroup);
 
@@ -245,8 +248,6 @@ function createClouds(count) {
         cloudGroup.position.set(
             Math.random() * 800 - 400, // X position
             Math.random() * 100 + 200, // Y position (Adjusted to be between 200 and 300 for better visibility in sky)
-            Math.random() * 200 - 100, // Z position
-            // Ensures clouds are not too close to the camera, which can obscure the church
             (Math.random() * 200) + 100 // Further back Z position for clouds
         );
         clouds.push(cloudGroup);
@@ -599,18 +600,6 @@ window.addEventListener('load', () => {
     `;
     musicPrompt.innerHTML = '🎵 Click to enable music 🎵';
     document.body.appendChild(musicPrompt);
-
-    // Define the animation in style.css or dynamically (already in style.css now)
-    // const styleSheet = document.styleSheets[0];
-    // styleSheet.insertRule(`
-    //     @keyframes fadeInOutMusicPrompt {
-    //         0% { opacity: 0; transform: translateY(-10px); }
-    //         10% { opacity: 1; transform: translateY(0); }
-    //         90% { opacity: 1; transform: translateY(0); }
-    //         100% { opacity: 0; transform: translateY(-10px); }
-    //     }
-    // `, styleSheet.cssRules.length);
-
 
     document.addEventListener('click', function enableAudioOnce() {
         if (!musicPlaying) {
