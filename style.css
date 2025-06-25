@@ -246,7 +246,7 @@ body {
     transform: translate(-50%, -50%) scale(0);
     width: 90%;
     max-width: 600px;
-    height: 80vh;
+    height: 80vh; /* Adjust height for better fit on smaller screens */
     background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,240,245,0.95));
     backdrop-filter: blur(20px);
     border-radius: 20px;
@@ -261,7 +261,7 @@ body {
     align-items: center;
     text-align: center;
     padding: 40px;
-    overflow-y: auto;
+    overflow-y: auto; /* Allow scrolling if content overflows */
 }
 
 .invitation-card.open {
@@ -459,6 +459,118 @@ body {
         font-size: 1.2em;
     }
     .enter-text {
+        font-size: 1em;
+    }
+
+    .invitation-card {
+        width: 95%; /* Make it slightly wider on smaller screens */
+        height: 90vh; /* Allow more vertical space */
+        padding: 20px; /* Reduce padding */
+    }
+
+    .card-couple-names {
+        font-size: 2.5em; /* Smaller font size for names */
+    }
+
+    .card-subtitle {
+        font-size: 1.1em; /* Smaller subtitle */
+    }
+
+    .valentine-badge {
+        font-size: 0.9em; /* Smaller badge text */
+        padding: 6px 15px; /* Adjust padding */
+    }
+
+    .personal-message {
+        font-size: 1em; /* Smaller message font */
+        padding: 15px; /* Adjust padding */
+        margin: 15px 0; /* Adjust margin */
+    }
+
+    .detail-title {
+        font-size: 1.1em; /* Smaller detail title */
+    }
+
+    .detail-content {
+        font-size: 0.9em; /* Smaller detail content */
+    }
+
+    .rsvp-button {
+        padding: 12px 30px; /* Adjust button padding */
+        font-size: 1.1em; /* Smaller button font */
+    }
+
+    .close-button {
+        font-size: 1.2em; /* Smaller close button */
+        top: 10px; /* Adjust position */
+        right: 10px; /* Adjust position */
+    }
+
+    .ring-animation {
+        font-size: 1.5em; /* Smaller ring animation */
+        bottom: 10px; /* Adjust position */
+    }
+
+    .music-control {
+        width: 40px; /* Smaller music control button */
+        height: 40px;
+        font-size: 1em;
+        top: 10px;
+        right: 10px;
+    }
+}
+
+/* Even smaller screens (e.g., old phones) */
+@media (max-width: 480px) {
+    .couple-names {
+        font-size: 1.8em;
+    }
+    .wedding-date {
+        font-size: 1em;
+    }
+    .enter-text {
+        font-size: 0.9em;
+    }
+
+    .invitation-card {
+        padding: 15px;
+        height: 95vh; /* Maximize vertical space */
+    }
+
+    .card-couple-names {
+        font-size: 2em;
+    }
+
+    .card-subtitle {
+        font-size: 0.9em;
+    }
+
+    .valentine-badge {
+        font-size: 0.8em;
+        padding: 5px 10px;
+    }
+
+    .personal-message {
+        font-size: 0.9em;
+        padding: 10px;
+        margin: 10px 0;
+    }
+
+    .detail-section {
+        padding: 15px;
+        margin: 15px 0;
+    }
+
+    .detail-title {
+        font-size: 1em;
+    }
+
+    .detail-content {
+        font-size: 0.85em;
+    }
+
+    .rsvp-button {
+        padding: 10px 25px;
         font-size: 1em;
     }
 }
