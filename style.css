@@ -16,7 +16,8 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    height: 100%; /* Ensure loading-content takes full height of its parent */
+    width: 100%; /* Ensure loading-content takes full width of its parent */
 }
 
 .heart-container {
@@ -95,7 +96,7 @@ body {
 }
 
 @keyframes shootArrow {
-    0% { 
+    0% {
         opacity: 1;
         left: -100px;
     }
@@ -134,10 +135,10 @@ body {
     width: 100vw;
     height: 100vh;
     background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    display: flex; /* Ensure flexbox is applied */
+    flex-direction: column; /* Stack items vertically */
+    justify-content: center; /* Center items vertically */
+    align-items: center; /* Center items horizontally */
     z-index: 1000;
     transition: opacity 2s ease-out; /* Smooth fade-out */
 }
@@ -573,4 +574,12 @@ body {
         padding: 10px 25px;
         font-size: 1em;
     }
+}
+
+/* New animation for music prompt */
+@keyframes fadeInOutMusicPrompt {
+    0% { opacity: 0; transform: translateY(-10px); }
+    10% { opacity: 1; transform: translateY(0); }
+    90% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-10px); }
 }

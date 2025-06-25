@@ -245,7 +245,9 @@ function createClouds(count) {
         cloudGroup.position.set(
             Math.random() * 800 - 400, // X position
             Math.random() * 100 + 200, // Y position (Adjusted to be between 200 and 300 for better visibility in sky)
-            Math.random() * 200 - 100 // Z position
+            Math.random() * 200 - 100, // Z position
+            // Ensures clouds are not too close to the camera, which can obscure the church
+            (Math.random() * 200) + 100 // Further back Z position for clouds
         );
         clouds.push(cloudGroup);
         scene.add(cloudGroup);
@@ -422,23 +424,25 @@ function animate() {
 function handleResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
 
-    // Adjust camera Z position or FOV based on aspect ratio to prevent church overflow
-    // A lower aspect ratio (taller, narrower screen like mobile in portrait) means we need to pull back
-    if (camera.aspect < 1) { // Portrait mode on mobile
-        camera.position.z = 550; // Pull camera further back
-        camera.fov = 80; // Slightly wider FOV
+    // Adjust camera Z position and FOV based on aspect ratio
+    // This aims to keep the church visible and not too congested,
+    // and also try to keep the sun in view.
+    if (camera.aspect < 0.7) { // Very narrow screens (e.g., portrait mode on most phones)
+        camera.position.z = 600; // Pull camera much further back
+        camera.fov = 90; // Wider FOV to fit more
+        if (church) church.scale.set(0.8, 0.8, 0.8); // Slightly scale down church
+        if (sun) sun.position.set(-300, 250, -300); // Adjust sun position for narrow view
+    } else if (camera.aspect < 1) { // Portrait mode on tablets/larger phones
+        camera.position.z = 500; // Pull camera further back
+        camera.fov = 85; // Wider FOV
+        if (church) church.scale.set(0.9, 0.9, 0.9); // Slightly scale down church
+        if (sun) sun.position.set(-350, 280, -250); // Adjust sun position
     } else { // Landscape or desktop
         camera.position.z = 400; // Original position
         camera.fov = 75; // Original FOV
+        if (church) church.scale.set(1, 1, 1); // Reset church scale
+        if (sun) sun.position.set(-400, 300, -200); // Original sun position
     }
-
-    // Optional: Slightly scale down the church for very narrow screens if needed,
-    // though camera adjustment is usually sufficient.
-    // if (window.innerWidth < 480 && church) {
-    //     church.scale.set(0.8, 0.8, 0.8);
-    // } else if (church) {
-    //     church.scale.set(1, 1, 1);
-    // }
 
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -558,7 +562,7 @@ window.addEventListener('load', () => {
 
         setTimeout(() => {
             document.getElementById('loading').style.opacity = '0';
-            setTimeout(() => { // Changed from 1000ms to 2000ms to match CSS transition
+            setTimeout(() => {
                 document.getElementById('loading').style.display = 'none';
 
                 const playPromise = bgMusic.play();
@@ -596,35 +600,35 @@ window.addEventListener('load', () => {
     musicPrompt.innerHTML = '🎵 Click to enable music 🎵';
     document.body.appendChild(musicPrompt);
 
-    // Define the animation in style.css or dynamically
-    const styleSheet = document.styleSheets[0];
-    styleSheet.insertRule(`
-        @keyframes fadeInOutMusicPrompt {
-            0% { opacity: 0; transform: translateY(-10px); }
-            10% { opacity: 1; transform: translateY(0); }
-            90% { opacity: 1; transform: translateY(0); }\r
-            100% { opacity: 0; transform: translateY(-10px); }\r
-        }\r
-    `, styleSheet.cssRules.length);
+    // Define the animation in style.css or dynamically (already in style.css now)
+    // const styleSheet = document.styleSheets[0];
+    // styleSheet.insertRule(`
+    //     @keyframes fadeInOutMusicPrompt {
+    //         0% { opacity: 0; transform: translateY(-10px); }
+    //         10% { opacity: 1; transform: translateY(0); }
+    //         90% { opacity: 1; transform: translateY(0); }
+    //         100% { opacity: 0; transform: translateY(-10px); }
+    //     }
+    // `, styleSheet.cssRules.length);
 
 
     document.addEventListener('click', function enableAudioOnce() {
         if (!musicPlaying) {
             toggleMusic();
-            // Remove the prompt once music is enabled\r
+            // Remove the prompt once music is enabled
             const existingPrompt = document.getElementById('music-prompt');
             if (existingPrompt) {
                 existingPrompt.remove();
             }
         }
-        document.removeEventListener('click', enableAudioOnce); // Remove self\r
-    }, { once: true }); // Use { once: true } for a cleaner removal of the listener\r
+        document.removeEventListener('click', enableAudioOnce); // Remove self
+    }, { once: true }); // Use { once: true } for a cleaner removal of the listener
 });
                 }
-            }, 2000); // This delay now matches the 2s opacity transition in style.css\r
+            }, 2000); // This delay now matches the 2s opacity transition in style.css
         }, 500);
     }, 4000);
 
     init();
-    setInterval(createFloatingHeart, 2000); // Assuming createFloatingHeart exists or is a placeholder\r
+    setInterval(createFloatingHeart, 2000); // Assuming createFloatingHeart exists or is a placeholder
 });
