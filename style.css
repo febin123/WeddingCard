@@ -1,0 +1,464 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Playfair Display', serif;
+    background: linear-gradient(135deg, #ffeef8 0%, #f8e1f4 25%, #e8d5f0 50%, #dac4f7 75%, #ccb2f4 100%);
+    overflow-x: hidden;
+    color: #2c1810;
+}
+
+.loading-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+.heart-container {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin-bottom: 30px;
+}
+
+.pumping-heart {
+    position: absolute;
+    width: 100px;
+    height: 90px;
+    background-color: #ff3366;
+    transform: rotate(-45deg);
+    animation: heartbeat 1.4s ease infinite;
+    top: 50%;
+    left: 50%;
+    margin-top: -45px;
+    margin-left: -50px;
+    z-index: 10;
+    box-shadow: 0 0 40px #ff3366;
+}
+
+.pumping-heart:before,
+.pumping-heart:after {
+    content: '';
+    position: absolute;
+    width: 100px;
+    height: 90px;
+    background-color: #ff3366;
+    border-radius: 50%;
+}
+
+.pumping-heart:before {
+    top: -50px;
+    left: 0;
+}
+
+.pumping-heart:after {
+    top: 0;
+    left: 50px;
+}
+
+.arrow {
+    position: absolute;
+    width: 80px;
+    height: 10px;
+    background-color: white;
+    top: 50%;
+    left: -100px;
+    transform: translateY(-50%);
+    z-index: 15;
+    opacity: 0;
+    animation: shootArrow 2s ease-in-out 2s forwards;
+}
+
+.arrow:after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 0;
+    height: 0;
+    border-left: 20px solid white;
+    border-top: 15px solid transparent;
+    border-bottom: 15px solid transparent;
+}
+
+@keyframes heartbeat {
+    0% { transform: rotate(-45deg) scale(1); }
+    14% { transform: rotate(-45deg) scale(1.3); }
+    28% { transform: rotate(-45deg) scale(1); }
+    42% { transform: rotate(-45deg) scale(1.3); }
+    70% { transform: rotate(-45deg) scale(1); }
+}
+
+@keyframes shootArrow {
+    0% { 
+        opacity: 1;
+        left: -100px;
+    }
+    20% {
+        opacity: 1;
+        left: 50%;
+    }
+    80% {
+        opacity: 1;
+        left: 150%;
+    }
+    100% {
+        opacity: 0;
+        left: 150%;
+    }
+}
+
+.loading-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3em;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    opacity: 0;
+    animation: fadeIn 1s ease-in-out 3.5s forwards;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 2s ease-out; /* Smooth fade-out */
+}
+
+.loading-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3em;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    animation: fadeInOut 3s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.05); }
+}
+
+.dove {
+    position: absolute;
+    font-size: 2em;
+    color: white;
+    animation: flyAcross 8s linear infinite;
+}
+
+@keyframes flyAcross {
+    0% { transform: translateX(-100px) translateY(0px); }
+    25% { transform: translateX(25vw) translateY(-20px); }
+    50% { transform: translateX(50vw) translateY(-10px); }
+    75% { transform: translateX(75vw) translateY(-25px); }
+    100% { transform: translateX(100vw) translateY(0px); }
+}
+
+#container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden; /* Hide Three.js overflow */
+}
+
+#canvas-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+/* Heaven's Gate overlay for interaction and text */
+.heaven-gate-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* Above the 3D canvas */
+    pointer-events: auto; /* Allows clicking */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+.church-overlay-text {
+    position: absolute;
+    bottom: 10%; /* Adjust as needed to position over your 3D church */
+    width: 100%;
+    text-align: center;
+    pointer-events: none; /* Text itself should not block clicks */
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.4); /* Stronger shadow for readability on 3D */
+}
+
+.couple-names {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5em; /* Larger for prominence */
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #FFF; /* White color for contrast */
+}
+
+.wedding-date {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8em; /* Larger */
+    font-weight: 600;
+    color: #FFE0B2; /* Light peach/gold */
+    margin-bottom: 15px;
+}
+
+.enter-text {
+    font-size: 1.4em; /* Larger */
+    color: #F8BBD0; /* Light pink */
+    font-style: italic;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 1; }
+}
+
+.invitation-card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 90%;
+    max-width: 600px;
+    height: 80vh;
+    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,240,245,0.95));
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    border: 2px solid rgba(255,215,0,0.3);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    z-index: 100;
+    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.invitation-card.open {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.card-header {
+    margin-bottom: 30px;
+}
+
+.card-couple-names {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3.5em;
+    font-weight: 700;
+    color: #c44569;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+.card-subtitle {
+    font-size: 1.4em;
+    color: #8b4367;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+.valentine-badge {
+    background: linear-gradient(45deg, #ff6b9d, #ff8a80);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 25px;
+    font-size: 1.1em;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(255,107,157,0.3);
+}
+
+.card-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+.detail-section {
+    margin: 20px 0;
+    padding: 20px;
+    background: rgba(255,255,255,0.5);
+    border-radius: 15px;
+    border-left: 4px solid #ff6b9d;
+}
+
+.detail-title {
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #c44569;
+    margin-bottom: 10px;
+}
+
+.detail-content {
+    font-size: 1.1em;
+    color: #2c1810;
+    line-height: 1.6;
+}
+
+.personal-message {
+    font-style: italic;
+    color: #6b4e7a;
+    font-size: 1.2em;
+    line-height: 1.8;
+    margin: 30px 0;
+    padding: 25px;
+    background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,240,245,0.3));
+    border-radius: 15px;
+    border: 1px solid rgba(255,182,193,0.3);
+}
+
+.rsvp-button {
+    background: linear-gradient(45deg, #ff6b9d, #c44569);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 1.3em;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    box-shadow: 0 8px 25px rgba(255,107,157,0.3);
+    font-family: 'Playfair Display', serif;
+}
+
+.rsvp-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(255,107,157,0.4);
+    background: linear-gradient(45deg, #c44569, #ff6b9d);
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    color: #8b4367;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.close-button:hover {
+    background: rgba(255,107,157,0.1);
+    transform: scale(1.1);
+}
+
+.ring-animation {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2em;
+    color: #ffd700;
+    animation: ringSparkle 3s ease-in-out infinite;
+}
+
+@keyframes ringSparkle {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.2); }
+}
+
+.music-control {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1001;
+    background: rgba(255,255,255,0.9);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.music-control:hover {
+    background: rgba(255,255,255,1);
+    transform: scale(1.1);
+}
+
+.additional-sections {
+    position: absolute;
+    top: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #ffeef8 0%, #f8e1f4 100%);
+}
+
+.section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 20px;
+}
+
+.section-content {
+    max-width: 1000px;
+    text-align: center;
+    background: rgba(255,255,255,0.8);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 60px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+.section-title {
+    font-family: 'Dancing Script', cursive;
+    font-size: 3em;
+    color: #c44569;
+    margin-bottom: 40px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .church-overlay-text {
+        bottom: 8%; /* Adjust for mobile */
+    }
+    .couple-names {
+        font-size: 2.2em;
+    }
+    .wedding-date {
+        font-size: 1.2em;
+    }
+    .enter-text {
+        font-size: 1em;
+    }
+}
