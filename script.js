@@ -16,8 +16,9 @@ function init() {
     scene.background = new THREE.Color(0x87CEEB); // Light blue sky background
 
     // Camera
+    // Initial camera setup - will be adjusted by handleResize
     camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 2000);
-    camera.position.set(0, 50, 400); // Adjusted position to view wide church
+    camera.position.set(0, 50, 400); // Base position
 
     // Renderer
     renderer = new THREE.WebGLRenderer({
@@ -53,6 +54,9 @@ function init() {
 
     // Create 3D Sun
     createSun();
+
+    // Call handleResize initially to set camera correctly based on current window size
+    handleResize();
 
     animate();
 }
@@ -414,12 +418,34 @@ function animate() {
     renderer.render(scene, camera);
 }
 
-// Handle window resize
-window.addEventListener('resize', () => {
+// Handle window resize and camera adjustments for responsiveness
+function handleResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
+
+    // Adjust camera Z position or FOV based on aspect ratio to prevent church overflow
+    // A lower aspect ratio (taller, narrower screen like mobile in portrait) means we need to pull back
+    if (camera.aspect < 1) { // Portrait mode on mobile
+        camera.position.z = 550; // Pull camera further back
+        camera.fov = 80; // Slightly wider FOV
+    } else { // Landscape or desktop
+        camera.position.z = 400; // Original position
+        camera.fov = 75; // Original FOV
+    }
+
+    // Optional: Slightly scale down the church for very narrow screens if needed,
+    // though camera adjustment is usually sufficient.
+    // if (window.innerWidth < 480 && church) {
+    //     church.scale.set(0.8, 0.8, 0.8);
+    // } else if (church) {
+    //     church.scale.set(1, 1, 1);
+    // }
+
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
-});
+}
+
+// Listen for window resize events
+window.addEventListener('resize', handleResize);
 
 // Parallax effect on scroll - keeping this but it will mainly affect 3D particles if any
 window.addEventListener('scroll', () => {
@@ -576,29 +602,29 @@ window.addEventListener('load', () => {
         @keyframes fadeInOutMusicPrompt {
             0% { opacity: 0; transform: translateY(-10px); }
             10% { opacity: 1; transform: translateY(0); }
-            90% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 0; transform: translateY(-10px); }
-        }
+            90% { opacity: 1; transform: translateY(0); }\r
+            100% { opacity: 0; transform: translateY(-10px); }\r
+        }\r
     `, styleSheet.cssRules.length);
 
 
     document.addEventListener('click', function enableAudioOnce() {
         if (!musicPlaying) {
             toggleMusic();
-            // Remove the prompt once music is enabled
+            // Remove the prompt once music is enabled\r
             const existingPrompt = document.getElementById('music-prompt');
             if (existingPrompt) {
                 existingPrompt.remove();
             }
         }
-        document.removeEventListener('click', enableAudioOnce); // Remove self
-    }, { once: true }); // Use { once: true } for a cleaner removal of the listener
+        document.removeEventListener('click', enableAudioOnce); // Remove self\r
+    }, { once: true }); // Use { once: true } for a cleaner removal of the listener\r
 });
                 }
-            }, 2000); // This delay now matches the 2s opacity transition in style.css
+            }, 2000); // This delay now matches the 2s opacity transition in style.css\r
         }, 500);
     }, 4000);
 
     init();
-    setInterval(createFloatingHeart, 2000); // Assuming createFloatingHeart exists or is a placeholder
+    setInterval(createFloatingHeart, 2000); // Assuming createFloatingHeart exists or is a placeholder\r
 });
