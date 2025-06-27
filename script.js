@@ -214,7 +214,7 @@ function create3DChurch() {
     church.add(rightWindow);
 
     // Ground Plane
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 900), new THREE.MeshPhongMaterial({
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 1000), new THREE.MeshPhongMaterial({
         color: 0x7CB342
     })); // Green ground
     ground.rotation.x = -Math.PI / 2; // Rotate to be flat
