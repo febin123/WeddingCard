@@ -55,6 +55,8 @@ function init() {
     // Create 3D Sun
     createSun();
 
+     createTrees(5); // Create 25 trees around the church
+
     // Call handleResize initially to set camera correctly based on current window size
     handleResize();
 
@@ -345,6 +347,51 @@ function createFloatingRoses() {
 
         roses.push(rose);
         scene.add(rose);
+    }
+}
+
+// Add this function to your script.js file
+function createTrees(count) {
+    const trunkMaterial = new THREE.MeshPhongMaterial({ color: 0x8B4513 }); // Brown for trunk
+    const leavesMaterial = new THREE.MeshPhongMaterial({ color: 0x228B22 }); // Forest Green for leaves
+
+    for (let i = 0; i < count; i++) {
+        const treeGroup = new THREE.Group();
+
+        // Trunk (Cylinder)
+        const trunkHeight = 30 + Math.random() * 20; // Vary height
+        const trunkRadius = 3 + Math.random() * 2; // Vary thickness
+        const trunk = new THREE.Mesh(new THREE.CylinderGeometry(trunkRadius, trunkRadius, trunkHeight, 8), trunkMaterial);
+        trunk.position.y = trunkHeight / 2; // Position trunk so its base is at y=0
+        treeGroup.add(trunk);
+
+        // Leaves (Cone for pine-like trees, or multiple spheres for deciduous)
+        const leavesHeight = 40 + Math.random() * 30;
+        const leavesRadius = 20 + Math.random() * 15;
+
+        // Example: Pine tree (Cone)
+        const leaves = new THREE.Mesh(new THREE.ConeGeometry(leavesRadius, leavesHeight, 16), leavesMaterial);
+        leaves.position.y = trunkHeight + (leavesHeight * 0.6); // Position cone above trunk
+
+        treeGroup.add(leaves);
+
+        // Random positioning in the garden area
+        // Adjust these ranges based on where your church is and where you want the trees
+        treeGroup.position.x = (Math.random() * 400) - 200; // From -200 to 200 (around the church)
+        treeGroup.position.z = (Math.random() * 200) - 100; // From -100 to 100 (in front/behind church)
+        treeGroup.position.y = 0; // Ensure trees are on the ground
+
+        // To make them appear "beside the church", you might want to adjust the X and Z ranges
+        // For example, if church is centered at (0, 50, 0) and is about 200 wide on X:
+        // You could place trees in two clusters, one on each side.
+        if (Math.random() > 0.5) { // Roughly half on left, half on right
+            treeGroup.position.x = -150 - (Math.random() * 150); // Left side, further out
+        } else {
+            treeGroup.position.x = 150 + (Math.random() * 150); // Right side, further out
+        }
+        treeGroup.position.z = (Math.random() - 0.5) * 150; // Spread in Z direction
+
+        scene.add(treeGroup);
     }
 }
 
