@@ -41,7 +41,7 @@ function init() {
     create3DChurch();
 
     // Create moving clouds
-    createClouds(10); // Create 10 clouds
+    createClouds(15); // Create 10 clouds
 
     // Create birds
     createBirds(5); // Create 5 birds
@@ -214,7 +214,7 @@ function create3DChurch() {
     church.add(rightWindow);
 
     // Ground Plane
-    const ground = new THREE.Mesh(new THREE.PlaneGeometry(1000, 1000), new THREE.MeshPhongMaterial({
+    const ground = new THREE.Mesh(new THREE.PlaneGeometry(600, 900), new THREE.MeshPhongMaterial({
         color: 0x7CB342
     })); // Green ground
     ground.rotation.x = -Math.PI / 2; // Rotate to be flat
@@ -547,8 +547,8 @@ function handleRSVP() {
     messageBox.innerHTML = `
         <p style="font-size: 1.2em; margin-bottom: 15px;">Thank you for your RSVP! 💕</p>
         <p style="margin-bottom: 10px;">Please contact us:</p>
-        <p style="margin-bottom: 5px;">📧 febin.christin.wedding@gmail.com</p>
-        <p>📱 +1 (555) 123-4567</p>
+        <p style="margin-bottom: 5px;">📧 febsep96@gmail.com</p>
+        <p>📱 +41 76 577 30 26</p>
         <p style="margin-top: 20px; font-style: italic;">We can't wait to celebrate with you on our special day!</p>
         <button onclick="this.parentNode.remove()" style="
             background: linear-gradient(45deg, #ff6b9d, #c44569);
