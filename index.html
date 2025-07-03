@@ -1,126 +1,496 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Febin ❤️ Christin - Valentine's Day Wedding 2026</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;600;700&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Christin & Febin Wedding</title>
+
+  <!-- Tailwind (just‑in‑time CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'cursive': ['"Alex Brush"', 'cursive'],
+            'playfair': ['"Playfair Display"', 'serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* Global styling */
+    body {
+      @apply min-h-screen flex items-center justify-center text-[#223322] text-center relative overflow-x-hidden;
+      font-family: "Playfair Display", serif;
+      background: radial-gradient(circle at 50% 40%, #f9faf7 0%, #e3eadc 55%, #b3c5a6 100%);
+    }
+
+    /* Floral decorations */
+    .floral-decoration {
+      position: absolute;
+      width: 120px;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0.8;
+    }
+    
+    /* Corner roses */
+    .corner {
+      position: absolute;
+      width: 200px;
+      pointer-events: none;
+      user-select: none;
+      animation: float 12s infinite ease-in-out;
+      z-index: 0;
+    }
+    .tl { 
+      top: -20px; 
+      left: -20px;
+      animation-delay: 0s;
+    }
+    .tr { 
+      top: -20px; 
+      right: -20px;
+      animation-delay: 3s;
+    }
+    .bl { 
+      bottom: -20px; 
+      left: -20px;
+      animation-delay: 6s;
+    }
+    .br { 
+      bottom: -20px; 
+      right: -20px;
+      animation-delay: 9s;
+    }
+
+    /* Side flowers */
+    .left-flower-1 { left: 5%; top: 20%; transform: rotate(-15deg); }
+    .left-flower-2 { left: 8%; top: 60%; transform: rotate(10deg); }
+    .right-flower-1 { right: 5%; top: 25%; transform: rotate(15deg) scaleX(-1); }
+    .right-flower-2 { right: 8%; top: 65%; transform: rotate(-10deg) scaleX(-1); }
+    .bottom-flower { bottom: 5%; left: 50%; transform: translateX(-50%) rotate(180deg); }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(5deg);
+      }
+    }
+
+    /* Main container */
+    .main-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Wedding content */
+    .wedding-content {
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .couple-names {
+      font-family: 'Alex Brush', cursive;
+      font-size: 4.5rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      color: #5a4a2a;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+      position: relative;
+      display: inline-block;
+    }
+
+    .couple-names:before, .couple-names:after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 50px;
+      background: #b39652;
+      top: 50%;
+    }
+
+    .couple-names:before {
+      left: -60px;
+    }
+
+    .couple-names:after {
+      right: -60px;
+    }
+
+    .welcome-text {
+      font-size: 2.5rem;
+      font-style: italic;
+      line-height: 1.1;
+      margin-bottom: 5px;
+      text-align: center;
+      width: 100%;
+      font-weight: 500;
+      color: #3a3a3a;
+    }
+
+    .wedding-date {
+      font-size: 1rem;
+      letter-spacing: 4px;
+      margin-bottom: 30px;
+      text-align: center;
+      width: 100%;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      text-transform: uppercase;
+      color: #5a4a2a;
+    }
+
+    /* Countdown timer */
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .countdown-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 70px;
+    }
+
+    .countdown-value {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: #5a4a2a;
+      line-height: 1;
+    }
+
+    .countdown-label {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #7a7a7a;
+      margin-top: 5px;
+    }
+
+    .rsvp-btn {
+      background-color: #b39652;
+      color: white;
+      padding: 12px 40px;
+      border-radius: 4px;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .rsvp-btn:hover {
+      background-color: #9b7e3f;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .rsvp-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Music control */
+    .music-control {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .music-control:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: scale(1.1);
+    }
+
+    .music-control i {
+      font-size: 24px;
+      color: #5a4a2a;
+    }
+
+    /* Responsive adjustments */
+    @media (min-width: 640px) {
+      .couple-names {
+        font-size: 5.5rem;
+        margin-bottom: 15px;
+      }
+
+      .welcome-text {
+        font-size: 3rem;
+        margin-bottom: 5px;
+      }
+
+      .wedding-date {
+        font-size: 1.1rem;
+      }
+      
+      .countdown-box {
+        min-width: 80px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .main-container {
+        padding-top: 60px;
+      }
+
+      .couple-names {
+        font-size: 6.5rem;
+      }
+
+      .welcome-text {
+        font-size: 3.5rem;
+      }
+
+      .wedding-date {
+        font-size: 1.2rem;
+        letter-spacing: 6px;
+      }
+      
+      .corner {
+        width: 260px;
+      }
+      
+      .floral-decoration {
+        width: 150px;
+      }
+      
+      .countdown-box {
+        min-width: 100px;
+      }
+      
+      .countdown-value {
+        font-size: 3rem;
+      }
+    }
+    
+    @media (max-width: 639px) {
+      .corner {
+        width: 150px;
+      }
+      
+      .floral-decoration {
+        width: 80px;
+      }
+      
+      .couple-names {
+        font-size: 3rem;
+      }
+      
+      .couple-names:before, 
+      .couple-names:after {
+        width: 30px;
+      }
+      
+      .couple-names:before {
+        left: -40px;
+      }
+      
+      .couple-names:after {
+        right: -40px;
+      }
+      
+      .welcome-text {
+        font-size: 2rem;
+      }
+      
+      .wedding-date {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+      }
+      
+      .countdown-container {
+        gap: 10px;
+      }
+      
+      .countdown-box {
+        min-width: 60px;
+      }
+      
+      .countdown-value {
+        font-size: 2rem;
+      }
+      
+      .music-control {
+        width: 40px;
+        height: 40px;
+        bottom: 15px;
+        right: 15px;
+      }
+      
+      .music-control i {
+        font-size: 20px;
+      }
+    }
+    
+    @media (max-width: 639px) {
+      .main-container {
+        padding: 40px 15px;
+      }
+      
+      .left-flower-1, 
+      .left-flower-2,
+      .right-flower-1,
+      .right-flower-2 {
+        display: none;
+      }
+    }
+  </style>
+  <!-- Font Awesome for music icon -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <div class="loading-screen" id="loading" >
-    <div class="loading-content">
-        <div class="heart-container">
-            <div class="pumping-heart"></div>
-               
+
+  <!-- Floral decorations -->
+  <img class="corner tl" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+  <img class="corner tr" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+  <img class="corner bl" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+  <img class="corner br" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+  
+  <img class="floral-decoration left-flower-1" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+  <img class="floral-decoration left-flower-2" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+  <img class="floral-decoration right-flower-1" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+  <img class="floral-decoration right-flower-2" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+  <img class="floral-decoration bottom-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+
+  <!-- Main content -->
+  <div class="main-container">
+    <!-- Wedding details -->
+    <div class="wedding-content">
+      <h1 class="couple-names">Christin & Febin</h1>
+      <h2 class="welcome-text">Welcome to<br>our wedding</h2>
+      <p class="wedding-date">FEBRUARY 14, 2026</p>
+      
+      <!-- Countdown Timer -->
+      <div class="countdown-container">
+        <div class="countdown-box">
+          <div id="days" class="countdown-value">00</div>
+          <div class="countdown-label">Days</div>
         </div>
-        <div class="loading-text">Welcome to Heaven's Gate</div>        
+        <div class="countdown-box">
+          <div id="hours" class="countdown-value">00</div>
+          <div class="countdown-label">Hours</div>
+        </div>
+        <div class="countdown-box">
+          <div id="minutes" class="countdown-value">00</div>
+          <div class="countdown-label">Minutes</div>
+        </div>
+        <div class="countdown-box">
+          <div id="seconds" class="countdown-value">00</div>
+          <div class="countdown-label">Seconds</div>
+        </div>
+      </div>
+      
+      <button class="rsvp-btn" onclick="alert('Thank you for your RSVP!')">RSVP</button>
     </div>
-</div>
+  </div>
 
-    <button class="music-control" id="musicBtn" onclick="toggleMusic()">🎵</button>
+  <!-- Music Control -->
+  <div class="music-control" id="musicControl">
+    <i class="fas fa-music"></i>
+    <audio id="bgMusic" loop>
+      <source src="pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
+  </div>
 
-    <div id="container">
-        <div id="canvas-container"></div>
-        
-        <div class="heaven-gate-overlay" id="heavenGate">
-            <div class="church-overlay-text">
-                <div class="couple-names">Christin ❤️ Febin</div>
-                <div class="wedding-date">14th February 2026</div>
-                </div>
-        </div>
+  <script>
+    // Countdown timer
+    function updateCountdown() {
+      const weddingDate = new Date("February 14, 2026 00:00:00").getTime();
+      const now = new Date().getTime();
+      const distance = weddingDate - now;
+      
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      document.getElementById("days").textContent = days.toString().padStart(2, '0');
+      document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+      document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+      document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+    }
+    
+    // Update every second
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
-        <div class="invitation-card" id="invitationCard">
-            <button class="close-button" onclick="closeInvitation()">✕</button>
-            
-            <div class="card-header">
-                <div class="card-couple-names">Christin ❤️ Febin</div>
-                <div class="card-subtitle">Together with their families</div>
-                <div class="valentine-badge">💕 Valentine's Day Wedding 💕</div>
-            </div>
+    // Music control
+    const musicControl = document.getElementById('musicControl');
+    const bgMusic = document.getElementById('bgMusic');
+    let isPlaying = true;
 
-            <div class="card-details">
-                <div class="personal-message">
-                    "Two hearts, one soul, united in love's eternal dance. 
-                    On this most romantic day of the year, we invite you to witness 
-                    our sacred union as we promise to love, honor, and cherish 
-                    each other for all eternity."
-                </div>
+    // Try to play music (may require user interaction on some browsers)
+    function tryPlayMusic() {
+      const playPromise = bgMusic.play();
+      
+      if (playPromise == undefined) {
+        playPromise.then(_ => {
+          isPlaying = true;
+          musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+        })
+        .catch(error => {
+          isPlaying = false;
+          musicControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        });
+      }
+    }
 
-                <div class="detail-section">
-                    <div class="detail-title">💒 Wedding</div>
-                    <div class="detail-content">
-                        <strong>Date:</strong> Saturday, 14th February 2026<br>
-                        <strong>Time:</strong> 4:00 PM<br>
-                        <strong>Venue:</strong> SNithya Sahaya Matha Catholic Church<br>
-                        Road, SH48, Karavaloor, Kerala 691318, India
-                    </div>
-                </div>
+    // Toggle music play/pause
+    musicControl.addEventListener('click', function() {
+      if (isPlaying) {
+        bgMusic.pause();
+        musicControl.innerHTML = '<i class="fas fa-volume-mute"></i>';
+      } else {
+        bgMusic.play();
+        musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
+      }
+      isPlaying = !isPlaying;
+    });
 
-           <div class="detail-section">
-                    <div class="detail-title">💒 Engagement</div>
-                    <div class="detail-content">
-                        <strong>Date:</strong> Monday, 9th February 2026<br>
-                        <strong>Time:</strong> 4:00 PM<br>
-                        <strong>Venue:</strong> SNithya Sahaya Matha Catholic Church<br>
-                        Road, SH48, Karavaloor, Kerala 691318, India
-                    </div>
-                </div>
-
-                <div class="detail-section">
-                    <div class="detail-title">👗 Dress Code</div>
-                    <div class="detail-content">
-                        Elegant & Classy<br>
-                        <em>Soft pastels and romantic hues preferred</em>
-                    </div>
-                </div>
-
-                <button class="rsvp-button" onclick="handleRSVP()">
-                    RSVP with Love 💕
-                </button>
-            </div>
-
-            </div>
-    </div>
-
-    <div class="additional-sections">
-       
-
-        <div class="section" id="openInvitationSection">
-            <div class="section-content">
-                <h2 class="section-title">You're Invited!</h2>
-                <p>Click the button below to view our full wedding invitation and details.</p>
-                <button class="rsvp-button" onclick="openInvitation()" style="margin-top: 30px;">
-                    View Invitation 🎉
-                </button>
-            </div>
-        </div>
-
-        <div class="section">
-            <div class="section-content">
-                <h2 class="section-title">Gallery of Memories</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-top: 30px;">
-                    <div style="aspect-ratio: 1; background: linear-gradient(45deg, rgba(255,182,193,0.3), rgba(255,240,245,0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px dashed rgba(255,182,193,0.5); font-size: 1.1em; color: #8b4367;">
-                        Our First Meeting 📸
-                    </div>
-                    <div style="aspect-ratio: 1; background: linear-gradient(45deg, rgba(255,182,193,0.3), rgba(255,240,245,0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px dashed rgba(255,182,193,0.5); font-size: 1.1em; color: #8b4367;">
-                        Proposal Moment 💍
-                    </div>
-                    <div style="aspect-ratio: 1; background: linear-gradient(45deg, rgba(255,182,193,0.3), rgba(255,240,245,0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px dashed rgba(255,182,193,0.5); font-size: 1.1em; color: #8b4367;">
-                        Pre-Wedding Bliss 💕
-                    </div>
-                    <div style="aspect-ratio: 1; background: linear-gradient(45deg, rgba(255,182,193,0.3), rgba(255,240,245,0.3)); border-radius: 15px; display: flex; align-items: center; justify-content: center; border: 2px dashed rgba(255,182,193,0.5); font-size: 1.1em; color: #8b4367;">
-                        Together Forever ❤️
-                    </div>
-                </div>
-            </div>
-        </div> 
-<audio id="bgMusic" loop preload="auto">
-    <source src="/romantic-wedding-background-music-357203.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-</audio>
-    <script src="/script.js"></script>
-
+    // Try to play music when page loads (may not work until user interacts)
+    document.addEventListener('DOMContentLoaded', tryPlayMusic);
+    document.addEventListener('click', tryPlayMusic, { once: true });
+  </script>
 </body>
 </html>

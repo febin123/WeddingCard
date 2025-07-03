@@ -1,0 +1,288 @@
+/* Basic Reset & Body Styles */
+body {
+    margin: 0;
+    font-family: 'Open Sans', sans-serif; /* Example font */
+    background-color: #f8f8f8; /* A very light grey/off-white */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow: hidden; /* Prevent scrollbars from CSS elements */
+}
+
+.wedding-container {
+    width: 100%;
+    max-width: 1200px; /* Adjust as needed */
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden; /* To contain background elements */
+    position: relative; /* For positioning absolute elements like the frame/florals */
+    padding: 40px 60px; /* Adjust internal padding */
+    text-align: center;
+    min-height: 700px; /* Ensure enough space for content and decorations */
+}
+
+/* Background Decorations */
+.background-decorations {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Allows clicks to pass through to content */
+    overflow: hidden;
+}
+
+/* Floral Elements (simplified leaf shapes) */
+.floral-element {
+    position: absolute;
+    width: 150px; /* Adjust size */
+    height: 150px; /* Adjust size */
+    background-color: transparent;
+    z-index: 0; /* Ensure they are behind content */
+}
+
+.floral-element::before,
+.floral-element::after {
+    content: '';
+    position: absolute;
+    background-color: #dbe4e0; /* Muted green/grey for leaves */
+    border-radius: 50% 0; /* Creates a leaf-like shape */
+    opacity: 0.7;
+}
+
+.floral-element.top-left::before {
+    width: 60px;
+    height: 100px;
+    top: 0;
+    left: 0;
+    transform: rotate(45deg);
+}
+.floral-element.top-left::after {
+    width: 50px;
+    height: 90px;
+    top: 30px;
+    left: 40px;
+    transform: rotate(10deg);
+    background-color: #cdd9d5; /* Slightly different shade */
+}
+
+.floral-element.bottom-right::before {
+    width: 70px;
+    height: 110px;
+    bottom: 0;
+    right: 0;
+    transform: rotate(225deg);
+}
+.floral-element.bottom-right::after {
+    width: 60px;
+    height: 100px;
+    bottom: 30px;
+    right: 40px;
+    transform: rotate(190deg);
+    background-color: #cdd9d5;
+}
+
+/* Geometric Frame (simplified lines) */
+.geometric-frame {
+    position: absolute;
+    border: 2px solid #f7a000; /* Gold color */
+    opacity: 0.6;
+    z-index: 1; /* Slightly above florals, below content */
+}
+
+.geometric-frame.top-left-frame {
+    width: 200px;
+    height: 200px;
+    top: -50px;
+    left: -50px;
+    transform: rotate(15deg);
+    border-radius: 0 50px 0 50px; /* Irregular shape */
+    border-width: 0 2px 2px 0; /* Only right and bottom borders */
+}
+
+.geometric-frame.bottom-right-frame {
+    width: 200px;
+    height: 200px;
+    bottom: -50px;
+    right: -50px;
+    transform: rotate(195deg);
+    border-radius: 50px 0 50px 0; /* Irregular shape */
+    border-width: 2px 0 0 2px; /* Only top and left borders */
+}
+
+
+/* Header Styling */
+.wedding-header {
+    display: flex;
+    justify-content: flex-end; /* Push header content to the right */
+    width: 100%;
+    margin-bottom: 80px; /* Space between header and main content */
+    position: relative; /* Ensure it's above background elements */
+    z-index: 10;
+}
+
+.event-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* Align text to the right within its container */
+    font-size: 14px;
+    color: #666; /* Darker grey for details */
+    line-height: 1.6;
+}
+
+.event-details p {
+    margin: 0;
+}
+
+.date-time, .location-details, .contact-numbers {
+    margin-bottom: 10px; /* Space between blocks of details */
+}
+
+.time {
+    font-weight: 600;
+}
+
+.add-to-calendar, .view-map {
+    color: #007bff; /* A blue color for links, you can match the image if different */
+    text-decoration: none;
+    font-weight: 600;
+    display: block; /* Make them block to get their own line */
+}
+
+/* Main Content Styling */
+.wedding-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Ensure it's above background elements */
+    z-index: 10;
+}
+
+.couple-names {
+    font-family: 'Playfair Display', serif; /* Example elegant serif font */
+    font-size: 6em; /* Adjust size based on visual */
+    color: #333; /* Dark color for names */
+    margin: 0;
+    letter-spacing: -2px; /* Slight letter spacing adjustment */
+}
+
+.couple-names .ampersand {
+    color: #f7a000; /* Gold/yellow color for '&' */
+}
+
+.wedding-date {
+    font-size: 1.8em;
+    color: #555;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.theme-line {
+    font-size: 1.2em;
+    color: #777;
+    margin-bottom: 40px;
+}
+
+.heart-icon {
+    color: #e74c3c; /* Red color for hearts */
+    margin: 0 5px;
+}
+
+.rsvp-button {
+    background-color: #ffffff; /* White background */
+    border: 1px solid #ccc; /* Light grey border */
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 1.2em;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+
+.rsvp-button:hover {
+    background-color: #f0f0f0;
+    border-color: #999;
+}
+
+.rsvp-icon {
+    font-size: 1.4em; /* Adjust icon size */
+    color: #555; /* Icon color */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .wedding-container {
+        padding: 30px;
+        min-height: 600px;
+    }
+    .wedding-header {
+        justify-content: center; /* Center header content on smaller screens */
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .event-details {
+        align-items: center;
+    }
+    .couple-names {
+        font-size: 4.5em;
+    }
+    .wedding-date {
+        font-size: 1.6em;
+    }
+    .theme-line {
+        font-size: 1.1em;
+    }
+    .rsvp-button {
+        padding: 12px 25px;
+        font-size: 1.1em;
+    }
+    .floral-element {
+        width: 100px;
+        height: 100px;
+    }
+    .geometric-frame {
+        width: 150px;
+        height: 150px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    .wedding-container {
+        padding: 20px;
+        min-height: 500px;
+    }
+    .couple-names {
+        font-size: 3em;
+        letter-spacing: -1px;
+    }
+    .wedding-date {
+        font-size: 1.4em;
+    }
+    .theme-line {
+        font-size: 0.9em;
+    }
+    .rsvp-button {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+    .floral-element {
+        display: none; /* Hide complex florals on very small screens */
+    }
+    .geometric-frame {
+        display: none; /* Hide geometric frame on very small screens */
+    }
+}
