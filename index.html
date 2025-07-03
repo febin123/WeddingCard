@@ -459,13 +459,13 @@
     // Music control
     const musicControl = document.getElementById('musicControl');
     const bgMusic = document.getElementById('bgMusic');
-    let isPlaying = true;
+    let isPlaying = false;
 
     // Try to play music (may require user interaction on some browsers)
     function tryPlayMusic() {
       const playPromise = bgMusic.play();
       
-      if (playPromise == undefined) {
+      if (playPromise !== undefined) {
         playPromise.then(_ => {
           isPlaying = true;
           musicControl.innerHTML = '<i class="fas fa-volume-up"></i>';
