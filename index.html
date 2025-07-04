@@ -26,12 +26,101 @@
 
   <style>
     /* Global styling */
-body {
+  body {
   @apply min-h-screen flex items-center justify-center text-[#223322] text-center relative overflow-x-hidden;
   font-family: "Playfair Display", serif;
   background: radial-gradient(circle at 50% 40%, #f9faf7 0%, #e3eadc 55%, #b3c5a6 100%);
   padding: 20px; /* Add some padding on mobile */
-}
+        }
+          /* Add this new loading styles */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 40%, #f9faf7 0%, #e3eadc 55%, #b3c5a6 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+    }
+    
+    .loading-initials {
+      font-family: 'Alex Brush', cursive;
+      font-size: 5rem;
+      color: #5a4a2a;
+      position: relative;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .loading-initials:before, .loading-initials:after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 50px;
+      background: #b39652;
+      top: 50%;
+    }
+    
+    .loading-initials:before {
+      left: -60px;
+    }
+    
+    .loading-initials:after {
+      right: -60px;
+    }
+    
+    .loading-flower {
+      width: 80px;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards, float 4s infinite ease-in-out;
+    }
+    
+    .loading-flower:nth-child(1) {
+      position: absolute;
+      top: 20%;
+      left: 15%;
+      animation-delay: 0.3s, 0s;
+    }
+    
+    .loading-flower:nth-child(2) {
+      position: absolute;
+      top: 20%;
+      right: 15%;
+      animation-delay: 0.5s, 0.5s;
+      transform: scaleX(-1);
+    }
+    
+    .loading-flower:nth-child(3) {
+      position: absolute;
+      bottom: 20%;
+      left: 15%;
+      animation-delay: 0.7s, 1s;
+      transform: rotate(-15deg);
+    }
+    
+    .loading-flower:nth-child(4) {
+      position: absolute;
+      bottom: 20%;
+      right: 15%;
+      animation-delay: 0.9s, 1.5s;
+      transform: scaleX(-1) rotate(15deg);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 0.8; transform: scale(1); }
+    }
+    
+    .loaded .loading-screen {
+      opacity: 0;
+      pointer-events: none;
+    }
 
     /* Floral decorations */
     .floral-decoration {
@@ -451,7 +540,18 @@ body {
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-<video id="bgVideo" loop style="display: none;">
+
+     <!-- Add this loading screen at the beginning of body -->
+  <div class="loading-screen">
+    <div class="loading-initials">C & F</div>
+    <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+    <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+    <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+    <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
+  </div>
+
+
+<video id="bgVideo" autoplay "display: none;">
   <source src="/Sakhi (pachai nirame) - Bgm ringtone _ download link in discription 👇.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
@@ -505,6 +605,19 @@ body {
   <!-- Music Control -->
 
   <script>
+        // Add this at the end of your existing script
+    window.addEventListener('load', function() {
+      // After everything is loaded, wait 1.5 seconds then fade out
+      setTimeout(function() {
+        document.body.classList.add('loaded');
+        
+        // Remove loading screen after fade out completes
+        setTimeout(function() {
+          document.querySelector('.loading-screen').style.display = 'none';
+        }, 1000);
+      }, 2000);
+    });
+
     // Countdown timer
     function updateCountdown() {
       const weddingDate = new Date("February 14, 2026 00:00:00").getTime();
