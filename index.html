@@ -550,11 +550,14 @@
     <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   </div>
 
+<!-- Video Element - Remove display:none and add muted -->
 
 <video id="bgVideo" autoplay style="display: none;">
   <source src="/Sakhi (pachai nirame) - Bgm ringtone _ download link in discription 👇.mp4" type="video/mp4">
   Your browser does not support the video tag.
 </video>
+
+
 
 <!-- Video and Music Controls -->
 
@@ -605,6 +608,15 @@
   <!-- Music Control -->
 
   <script>
+    // On page load
+// On page load
+// After user interaction (like clicking RSVP button), unmute
+document.querySelector('.rsvp-btn').addEventListener('click', function() {
+  const video = document.getElementById('bgVideo');
+  video.muted = false;
+  video.play().catch(e => console.log("Play failed:", e));
+});
+
         // Add this at the end of your existing script
     window.addEventListener('load', function() {
       // After everything is loaded, wait 1.5 seconds then fade out
