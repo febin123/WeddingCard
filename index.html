@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Christin & Febin Wedding</title>
 
-  <!-- Tailwind (just‑in‑time CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -20,19 +19,21 @@
     }
   </script>
 
-  <!-- Google fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
     /* Global styling */
-  body {
-  @apply min-h-screen flex items-center justify-center text-[#223322] text-center relative overflow-x-hidden;
-  font-family: "Playfair Display", serif;
-  background: radial-gradient(circle at 50% 40%, #f9faf7 0%, #e3eadc 55%, #b3c5a6 100%);
-  padding: 20px; /* Add some padding on mobile */
-        }
-          /* Add this new loading styles */
+    body {
+      @apply min-h-screen flex items-center justify-center text-[#223322] text-center relative overflow-x-hidden;
+      font-family: "Playfair Display", serif;
+      background: radial-gradient(circle at 50% 40%, #f9faf7 0%, #e3eadc 55%, #b3c5a6 100%);
+      padding: 20px; /* Add some padding on mobile */
+    }
+
+    /* Add this new loading styles */
     .loading-screen {
       position: fixed;
       top: 0;
@@ -161,49 +162,49 @@
       right: -20px;
       animation-delay: 9s;
     }
-/* Media controls */
-.media-controls {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  display: flex;
-  gap: 10px;
-  z-index: 100;
-}
+    /* Media controls */
+    .media-controls {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 100;
+    }
 
-.media-control {
-  background: rgba(255, 255, 255, 0.7);
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  transition: all 0.3s;
-}
+    .media-control {
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
 
-.media-control:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: scale(1.1);
-}
+    .media-control:hover {
+      background: rgba(255, 255, 255, 0.9);
+      transform: scale(1.1);
+    }
 
-.media-control i {
-  font-size: 24px;
-  color: #5a4a2a;
-}
+    .media-control i {
+      font-size: 24px;
+      color: #5a4a2a;
+    }
 
-@media (max-width: 639px) {
-  .media-control {
-    width: 40px;
-    height: 40px;
-  }
-  
-  .media-control i {
-    font-size: 20px;
-  }
-}
+    @media (max-width: 639px) {
+      .media-control {
+        width: 40px;
+        height: 40px;
+      }
+      
+      .media-control i {
+        font-size: 20px;
+      }
+    }
     /* Side flowers */
     .left-flower-1 { left: 5%; top: 20%; transform: rotate(-15deg); }
     .left-flower-2 { left: 8%; top: 60%; transform: rotate(10deg); }
@@ -221,29 +222,29 @@
     }
 
     /* Main container */
- .main-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 40px 20px; /* Reduced padding on mobile */
-  position: relative;
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* This ensures vertical centering */
-  min-height: 100vh; /* Take full viewport height */
-}
+    .main-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px; /* Reduced padding on mobile */
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center; /* This ensures vertical centering */
+      min-height: 100vh; /* Take full viewport height */
+    }
 
     /* Wedding content */
- .wedding-content {
-  margin-top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  flex-grow: 1; /* Allows it to grow and center content */
-}
+    .wedding-content {
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      flex-grow: 1; /* Allows it to grow and center content */
+    }
 
     .couple-names {
       font-family: 'Alex Brush', cursive;
@@ -356,33 +357,7 @@
       transform: translateY(0);
     }
 
-    /* Music control */
-    .music-control {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 100;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-    }
-
-    .music-control:hover {
-      background: rgba(255, 255, 255, 0.9);
-      transform: scale(1.1);
-    }
-
-    .music-control i {
-      font-size: 24px;
-      color: #5a4a2a;
-    }
+    /* Music control - now part of media-controls */
 
     /* Responsive adjustments */
     @media (min-width: 640px) {
@@ -501,47 +476,232 @@
     
     @media (max-width: 639px) {
       .main-container {
-        padding: 40px 15px;
+        padding: 20px 15px;
+        min-height: calc(100vh - 40px); /* Account for padding */
       }
       
-      .left-flower-1, 
-      .left-flower-2,
-      .right-flower-1,
-      .right-flower-2 {
-        display: none;
+      .couple-names {
+        font-size: 2rem;
+        margin-bottom: 15px; /* Add some space below names */
+      }
+      
+      .welcome-text {
+        font-size: 1.8rem; /* Slightly smaller font */
+        margin-bottom: 15px; /* Add space below welcome text */
+      }
+      
+      .wedding-date {
+        margin-bottom: 25px; /* Add space before countdown */
+      }
+      
+      .countdown-container {
+        margin-bottom: 30px; /* Add space before RSVP button */
       }
     }
+
+    /* New Section Styling */
+    .section-container {
+        @apply w-full max-w-3xl mx-auto py-16 px-4 md:px-8;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        margin-top: 40px; /* Space between sections */
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .section-title {
+        font-family: 'Alex Brush', cursive;
+        @apply text-5xl md:text-6xl text-[#5a4a2a] mb-8 relative inline-block;
+    }
+
+    .section-title::before, .section-title::after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 40px;
+        background: #b39652;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .section-title::before {
+        left: -50px;
+    }
+
+    .section-title::after {
+        right: -50px;
+    }
+
+    .section-content {
+        @apply text-lg text-[#223322] leading-relaxed;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .section-content ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    .section-content ul li {
+        margin-bottom: 10px;
+    }
+
+    .section-content a {
+        color: #b39652;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .section-content a:hover {
+        color: #9b7e3f;
+    }
+
+    .photo-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .photo-gallery img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .photo-gallery img:hover {
+        transform: scale(1.03);
+    }
+
+    /* Our Story specific styling */
+    .our-story-content {
+        display: flex;
+        flex-direction: column; /* Stack on mobile */
+        align-items: center;
+        gap: 30px; /* Space between image and text */
+        text-align: center; /* Center text on mobile */
+    }
+
+    .our-story-image {
+        width: 100%;
+        max-width: 300px; /* Control image size */
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* More prominent shadow */
+        border: 3px solid #b39652; /* Subtle border */
+        object-fit: cover;
+    }
+
+    .our-story-text {
+        flex: 1; /* Allow text to take remaining space */
+        text-align: center; /* Default center for mobile */
+    }
+
+    @media (min-width: 768px) {
+        .section-title {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+        }
+        .section-title::before, .section-title::after {
+            width: 30px;
+            left: -40px;
+            right: -40px;
+        }
+        .section-container {
+            padding: 30px 20px;
+        }
+        /* Desktop specific Our Story layout */
+        .our-story-content {
+            flex-direction: row; /* Side-by-side on desktop */
+            text-align: left; /* Align text left on desktop */
+        }
+        .our-story-image {
+            order: 2; /* Image on the right */
+            margin-left: 30px; /* Space between text and image */
+        }
+        .our-story-text {
+            order: 1; /* Text on the left */
+        }
+    }
+
     @media (max-width: 639px) {
-  .main-container {
-    padding: 20px 15px;
-    min-height: calc(100vh - 40px); /* Account for padding */
-  }
-  
-  .couple-names {
-    font-size: 2rem;
-    margin-bottom: 15px; /* Add some space below names */
-  }
-  
-  .welcome-text {
-    font-size: 1.8rem; /* Slightly smaller font */
-    margin-bottom: 15px; /* Add space below welcome text */
-  }
-  
-  .wedding-date {
-    margin-bottom: 25px; /* Add space before countdown */
-  }
-  
-  .countdown-container {
-    margin-bottom: 30px; /* Add space before RSVP button */
-  }
-}
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+        .section-title::before, .section-title::after {
+            width: 20px;
+            left: -30px;
+            right: -30px;
+        }
+        .section-content {
+            font-size: 1rem;
+        }
+        .photo-gallery {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+        .our-story-image {
+            max-width: 250px; /* Smaller image on mobile */
+        }
+    }
+
+    /* Raining Flowers Effect CSS */
+    #flower-rain-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Allows clicks to pass through */
+        overflow: hidden; /* Hide flowers outside the viewport */
+        z-index: 0; /* Behind other content but above background */
+        opacity: 0; /* Initially hidden */
+        transition: opacity 1s ease-in-out; /* Smooth fade in/out */
+    }
+
+    #flower-rain-container.active {
+        opacity: 1;
+    }
+
+    .falling-flower {
+        position: absolute;
+        width: 30px; /* Default size, will be randomized by JS */
+        height: auto;
+        animation: fall linear infinite;
+        opacity: 0.8;
+        transform: rotateZ(var(--rotation, 0deg)); /* For random initial rotation */
+    }
+
+    @keyframes fall {
+        0% {
+            transform: translateY(-10vh) rotateZ(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 0.8;
+        }
+        90% {
+            opacity: 0.8;
+        }
+        100% {
+            transform: translateY(105vh) rotateZ(360deg);
+            opacity: 0;
+        }
+    }
+
   </style>
-  <!-- Font Awesome for music icon -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-     <!-- Add this loading screen at the beginning of body -->
   <div class="loading-screen">
     <div class="loading-initials">C & F</div>
     <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
@@ -550,17 +710,12 @@
     <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   </div>
 
-<!-- Video Element - Remove display:none and add muted -->
+  <video id="bgVideo" autoplay muted loop playsinline style="display: none;">
+    <source src="/Sakhi (pachai nirame) - Bgm ringtone _ download link in discription 👇.mp4" type="video/mp4">
+  </video>
 
-<video id="bgVideo" autoplay muted loop playsinline style="display: none;">
-  <source src="/Sakhi (pachai nirame) - Bgm ringtone _ download link in discription 👇.mp4" type="video/mp4">
-</video>
+  <div id="flower-rain-container"></div>
 
-
-
-<!-- Video and Music Controls -->
-
-  <!-- Floral decorations -->
   <img class="corner tl" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   <img class="corner tr" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   <img class="corner bl" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
@@ -572,15 +727,12 @@
   <img class="floral-decoration right-flower-2" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   <img class="floral-decoration bottom-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
 
-  <!-- Main content -->
   <div class="main-container">
-    <!-- Wedding details -->
     <div class="wedding-content">
       <h1 class="couple-names">Christin & Febin</h1>
       <h2 class="welcome-text">Welcome to<br>our wedding</h2>
       <p class="wedding-date">FEBRUARY 14, 2026</p>
       
-      <!-- Countdown Timer -->
       <div class="countdown-container">
         <div class="countdown-box">
           <div id="days" class="countdown-value">00</div>
@@ -604,19 +756,114 @@
     </div>
   </div>
 
-  <!-- Music Control -->
+<section id="our-story" class="section-container">
+    <h2 class="section-title">Our Story</h2>
+    <div class="our-story-content">
+        <div class="our-story-text">
+            <p class="mb-4">From a chance encounter to a love that grew, our journey has been filled with laughter, shared dreams, and unwavering support. We are so excited to officially start our next chapter and celebrate with all of you!</p>
+            <p>It all began when we met at a mutual friend's gathering. We instantly connected over our shared love for adventure and quiet evenings. Over the years, our bond deepened, and now, we're ready to say "I do" and make it official!</p>
+        </div>
+        <img src="/WhatsApp Image 2025-07-08 at 19.59.39_3fc053b1.jpg" alt="Christin and Febin's Story" class="our-story-image">
+    </div>
+</section>
+
+<section id="wedding-details" class="section-container">
+    <h2 class="section-title">The Celebration</h2>
+    <div class="section-content">
+        <h3 class="text-2xl font-playfair font-semibold text-[#5a4a2a] mb-4">Wedding Ceremony</h3>
+        <p><strong>Date:</strong> Friday, February 14, 2026</p>
+        <p><strong>Time:</strong> 4:00 PM onwards</p>
+        <p><strong>Venue:</strong> The Grand Ballroom, The Elegant Estate</p>
+        <p><strong>Address:</strong> 123 Dreamy Lane, Cityville, State 12345</p>
+        <p class="mt-4">Join us as we exchange our vows in a beautiful ceremony, surrounded by our loved ones. Cocktail attire requested.</p>
+
+        <h3 class="text-2xl font-playfair font-semibold text-[#5a4a2a] mt-8 mb-4">Reception</h3>
+        <p><strong>Time:</strong> 7:00 PM onwards</p>
+        <p><strong>Venue:</strong> The Crystal Pavilion, The Elegant Estate</p>
+        <p><strong>Address:</strong> 123 Dreamy Lane, Cityville, State 12345</p>
+        <p class="mt-4">Celebrate with us! Enjoy dinner, dancing, and delightful company as we begin our life as a married couple. Formal attire requested.</p>
+    </div>
+</section>
+
+<section id="travel-accommodation" class="section-container">
+    <h2 class="section-title">Travel & Stay</h2>
+    <div class="section-content">
+        <p>For our out-of-town guests, we've arranged for special rates at nearby hotels. Please find the details below:</p>
+        <ul class="text-left mx-auto max-w-md">
+            <li><strong>The Grand Hotel:</strong> <a href="#" target="_blank">Book Here</a> (mention "Christin & Febin Wedding" for discount)</li>
+            <li><strong>Comfort Inn & Suites:</strong> <a href="#" target="_blank">Book Here</a> (group code: CFWEDDING)</li>
+        </ul>
+        <p class="mt-4">The venue is easily accessible by car, and we will provide shuttle services from the recommended hotels.</p>
+        <p class="mt-2"><strong>Nearest Airport:</strong> Cityville International Airport (CVIA)</p>
+    </div>
+</section>
+
+<section id="registry" class="section-container">
+    <h2 class="section-title">Registry</h2>
+    <div class="section-content">
+        <p>Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, we have registered at the following:</p>
+        <ul class="text-left mx-auto max-w-md">
+            <li><a href="#" target="_blank">Zola Wedding Registry</a></li>
+            <li><a href="#" target="_blank">Amazon Wedding Registry</a></li>
+        </ul>
+        <p class="mt-4">Alternatively, contributions towards our dream honeymoon would be greatly appreciated.</p>
+    </div>
+</section>
+
+<section id="gallery" class="section-container">
+    <h2 class="section-title">Gallery</h2>
+    <div class="section-content photo-gallery">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+1" alt="Couple Photo 1">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+2" alt="Couple Photo 2">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+3" alt="Couple Photo 3">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+4" alt="Couple Photo 4">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+5" alt="Couple Photo 5">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+6" alt="Couple Photo 6">
+    </div>
+</section>
+
+<section id="faq" class="section-container">
+    <h2 class="section-title">FAQ</h2>
+    <div class="section-content text-left">
+        <h3 class="text-xl font-semibold text-[#5a4a2a] mb-2">Q: What is the dress code?</h3>
+        <p class="mb-4">A: For the ceremony, we kindly request cocktail attire. For the reception, formal attire is preferred.</p>
+
+        <h3 class="text-xl font-semibold text-[#5a4a2a] mb-2">Q: Can I bring a plus-one?</h3>
+        <p class="mb-4">A: Our wedding is strictly by invitation only. Your invitation will specify if you have a plus-one.</p>
+
+        <h3 class="text-xl font-semibold text-[#5a4a2a] mb-2">Q: Are children invited?</h3>
+        <p class="mb-4">A: While we love your little ones, we've opted for an adult-only celebration to allow everyone to relax and enjoy the evening.</p>
+
+        <h3 class="text-xl font-semibold text-[#5a4a2a] mb-2">Q: What time should I arrive?</h3>
+        <p class="mb-4">A: We recommend arriving 15-30 minutes before the ceremony start time to find your seats.</p>
+
+        <h3 class="text-xl font-semibold text-[#5a4a2a] mb-2">Q: Is there parking available at the venue?</h3>
+        <p class="mb-4">A: Yes, ample parking is available at The Elegant Estate.</p>
+    </div>
+</section>
+
+<section id="contact" class="section-container">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="section-content">
+        <p>If you have any further questions, please don't hesitate to reach out to our wedding coordinator:</p>
+        <p class="mt-4"><strong>Wedding Coordinator Name</strong></p>
+        <p>Email: <a href="mailto:coordinator@example.com">coordinator@example.com</a></p>
+        <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
+    </div>
+</section>
+
+<div class="media-controls">
+    <div id="videoToggle" class="media-control">
+      <i class="fas fa-video-slash"></i>
+    </div>
+  </div>
 
   <script>
     // On page load
-// On page load
-// After user interaction (like clicking RSVP button), unmute
-
-        // Add this at the end of your existing script
     window.addEventListener('load', function() {
-
-          const video = document.getElementById('bgVideo');
-  video.muted = false;
-  video.play().catch(e => console.log("Play failed:", e));
+      const video = document.getElementById('bgVideo');
+      video.muted = false; // Video will play with sound by default
+      video.play().catch(e => console.log("Play failed:", e));
 
       // After everything is loaded, wait 1.5 seconds then fade out
       setTimeout(function() {
@@ -646,12 +893,99 @@
       document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
     }
     
-
-
-    
     // Update every second
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
+
+    // Video toggle
+    document.getElementById('videoToggle').addEventListener('click', function() {
+      const video = document.getElementById('bgVideo');
+      const icon = this.querySelector('i');
+      if (video.paused) {
+        video.play();
+        icon.classList.remove('fa-video-slash');
+        icon.classList.add('fa-video');
+      } else {
+        video.pause();
+        icon.classList.remove('fa-video');
+        icon.classList.add('fa-video-slash');
+      }
+    });
+
+    // Raining Flowers Logic
+    const flowerRainContainer = document.getElementById('flower-rain-container');
+    const ourStorySection = document.getElementById('our-story');
+    const flowerImageSrc = "https://freesvg.org/img/Rosa-muscosa-alba---color.png"; // Use a light flower image
+    let flowerInterval;
+    let flowersActive = false;
+
+    // Function to create a single falling flower
+    function createFallingFlower() {
+        if (!flowersActive) return; // Stop if effect is inactive
+
+        const flower = document.createElement('img');
+        flower.src = flowerImageSrc;
+        flower.classList.add('falling-flower');
+
+        // Randomize size
+        const size = Math.random() * 20 + 20; // Size between 20px and 40px
+        flower.style.width = `${size}px`;
+        flower.style.height = `${size}px`;
+
+        // Randomize horizontal position
+        const startX = Math.random() * 100; // 0% to 100% of width
+        flower.style.left = `${startX}vw`;
+
+        // Randomize animation duration (for varied falling speeds)
+        const duration = Math.random() * 8 + 5; // 5 to 13 seconds
+        flower.style.animationDuration = `${duration}s`;
+
+        // Randomize animation delay (to stagger drops)
+        const delay = Math.random() * 0.5; // 0 to 0.5 seconds delay
+        flower.style.animationDelay = `-${delay}s`; // Negative delay starts animation partway through
+
+        // Random initial rotation
+        const initialRotation = Math.random() * 360;
+        flower.style.setProperty('--rotation', `${initialRotation}deg`);
+
+
+        flowerRainContainer.appendChild(flower);
+
+        // Remove flower after it falls off screen to prevent DOM clutter
+        flower.addEventListener('animationend', () => {
+            flower.remove();
+        });
+    }
+
+    // Intersection Observer to detect when "Our Story" section is in view
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // "Our Story" section is in view
+                if (!flowersActive) {
+                    flowersActive = true;
+                    flowerRainContainer.classList.add('active'); // Fade in container
+                    flowerInterval = setInterval(createFallingFlower, 200); // Generate a flower every 200ms
+                }
+            } else {
+                // "Our Story" section is out of view
+                if (flowersActive) {
+                    flowersActive = false;
+                    clearInterval(flowerInterval); // Stop generating new flowers
+                    flowerRainContainer.classList.remove('active'); // Fade out container
+
+                    // Optional: Remove all existing flowers after a delay (matching fade-out)
+                    setTimeout(() => {
+                        flowerRainContainer.innerHTML = '';
+                    }, 1000); 
+                }
+            }
+        });
+    }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
+
+    observer.observe(ourStorySection);
+
   </script>
 </body>
 </html>
