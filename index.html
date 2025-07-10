@@ -885,7 +885,7 @@
         </div>
       </div>
       
-      <button class="rsvp-btn" onclick="alert('Thank you for your RSVP!')">RSVP</button>
+      <button class="rsvp-btn">RSVP</button>
     </div>
   </div>
 
@@ -979,7 +979,7 @@
         <p class="mb-4">A: Our wedding is strictly by invitation only. Your invitation will specify if you have a plus-one.</p>
 
         <h3 class="text-xl font-semibold text-[#5a4a2a] mb-2">Q: Are children invited?</h3>
-        <p class="mb-4">A: While we love your little ones, we've opted for an adult-only celebration to allow everyone to relax and enjoy the evening.</p>
+        < class="mb-4">A: While we love your little ones, we've opted for an adult-only celebration to allow everyone to relax and enjoy the evening.</p>
 
         <h3 class="text-xl font-semibold text-[#5a4a2a] mb-2">Q: What time should I arrive?</h3>
         <p class="mb-4">A: We recommend arriving 15-30 minutes before the ceremony start time to find your seats.</p>
@@ -992,7 +992,7 @@
 <section id="contact" class="section-container">
     <h2 class="section-title">Contact Us</h2>
     <div class="section-content">
-        <p>If you have any further questions, please don't hesitate to reach out/p>
+        <p>If you have any further questions, please don't hesitate to reach out</p>
         <p class="mt-4"><strong>Febin & Christin </strong></p>
         <p>Email: <a href="mailto:coordinator@example.com">coordinator@example.com</a></p>
         <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
@@ -1006,7 +1006,6 @@
   </div>
 
   <script>
-    // On page load
     window.addEventListener('load', function() {
       const video = document.getElementById('bgVideo');
       video.muted = false; // Video will play with sound by default
@@ -1060,16 +1059,43 @@
       }
     });
 
-    // Raining Flowers Logic
+// Raining Flowers Logic
     const flowerRainContainer = document.getElementById('flower-rain-container');
     const ourStorySection = document.getElementById('our-story');
     const flowerImageSrc = "https://freesvg.org/img/Rosa-muscosa-alba---color.png"; // Use a light flower image
     let flowerInterval;
     let flowersActive = false;
 
+    // --- NEW: Configuration for flower rain based on screen width ---
+    const flowerConfig = {
+      desktop: {
+        interval: 300, // Every 300ms (0.3 seconds)
+        maxFlowers: 80 // Max flowers on screen at once
+      },
+      mobile: {
+        interval: 1500, // Every 1500ms (1.5 seconds) - Much less frequent
+        maxFlowers: 20 // Max flowers on screen at once
+      }
+    };
+
+    function getCurrentFlowerConfig() {
+      // Use a media query check or simply window.innerWidth
+      if (window.innerWidth <= 768) { // Assuming 768px as mobile breakpoint
+        return flowerConfig.mobile;
+      }
+      return flowerConfig.desktop;
+    }
+    // --- END NEW CONFIG ---
+
     // Function to create a single falling flower
     function createFallingFlower() {
         if (!flowersActive) return; // Stop if effect is inactive
+
+        // --- NEW: Limit total flowers on screen ---
+        if (flowerRainContainer.children.length >= getCurrentFlowerConfig().maxFlowers) {
+            return; // Don't create if max limit reached
+        }
+        // --- END NEW LIMIT ---
 
         const flower = document.createElement('img');
         flower.src = flowerImageSrc;
@@ -1113,8 +1139,10 @@
                 if (!flowersActive) {
                     flowersActive = true;
                     flowerRainContainer.classList.add('active'); // Fade in container
-                    // MODIFIED LINE: Increased interval for even fewer flowers
-                    flowerInterval = setInterval(createFallingFlower, 1000); // Generate a flower every 1000ms (1 second)
+                    
+                    // --- MODIFIED LINE: Use dynamic interval ---
+                    const currentConfig = getCurrentFlowerConfig();
+                    flowerInterval = setInterval(createFallingFlower, currentConfig.interval); 
                 }
             } else {
                 // "Our Story" section is out of view
@@ -1133,7 +1161,6 @@
     }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
 
     observer.observe(ourStorySection);
-
   </script>
 </body>
 </html>
