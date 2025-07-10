@@ -912,7 +912,7 @@
             <p class="mb-4">From a chance encounter to a love that grew, our journey has been filled with laughter, shared dreams, and unwavering support. We are so excited to officially start our next chapter and celebrate with all of you!</p>
             <p>It all began when we met at a mutual friend's gathering. We instantly connected over our shared love for adventure and quiet evenings. Over the years, our bond deepened, and now, we're ready to say "I do" and make it official!</p>
         </div>
-        <img src="/WhatsApp Image 2025-07-08 at 19.59.39_3fc053b1.jpg" alt="Christin and Febin's Story" class="our-story-image">
+        <img src="WhatsApp Image 2025-07-08 at 19.59.39_cee60807.jpg" alt="Christin and Febin's Story" class="our-story-image">
     </div>
 
     <img class="story-flower-1" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="Flower Decoration">
@@ -989,7 +989,17 @@
     </div>
 </section>
 
-
+<section id="registry" class="section-container">
+    <h2 class="section-title">Registry</h2>
+    <div class="section-content">
+        <p>Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, we have registered at the following:</p>
+        <ul class="text-left mx-auto max-w-md">
+            <li><a href="#" target="_blank">Zola Wedding Registry</a></li>
+            <li><a href="#" target="_blank">Amazon Wedding Registry</a></li>
+        </ul>
+        <p class="mt-4">Alternatively, contributions towards our dream honeymoon would be greatly appreciated.</p>
+    </div>
+</section>
 
 <section id="gallery" class="section-container">
     <h2 class="section-title">Gallery</h2>
@@ -1035,29 +1045,45 @@
 
 <div class="media-controls">
     <div id="videoToggle" class="media-control">
-      <i class="fas fa-video-slash"></i>
+      <i class="fas fa-volume-up"></i>
     </div>
   </div>
 
   <script>
+    const bgVideo = document.getElementById('bgVideo');
+    const videoToggleBtn = document.getElementById('videoToggle');
+    const videoToggleIcon = videoToggleBtn.querySelector('i');
+
     // On page load
     window.addEventListener('load', function() {
-      const video = document.getElementById('bgVideo');
-      video.muted = false; // Video will play with sound by default
-      video.play().catch(e => console.log("Play failed:", e));
-
-      // After everything is loaded, wait 1.5 seconds then fade out
-      setTimeout(function() {
-        document.body.classList.add('loaded');
-        
-        // Remove loading screen after fade out completes
+      // Set muted to false to attempt unmuted autoplay
+      // REMEMBER: Browsers will likely block this unless there's a prior user interaction.
+      bgVideo.muted = false; 
+      
+      bgVideo.play().then(() => {
+        // Play was successful (unmuted)
+        console.log("Video started unmuted.");
+        videoToggleIcon.classList.remove('fa-volume-mute', 'fa-video-slash'); // Remove slash if present
+        videoToggleIcon.classList.add('fa-volume-up');
+      }).catch(e => {
+        // Autoplay was prevented (most common scenario for unmuted video)
+        console.warn("Unmuted video autoplay prevented:", e);
+        // Fallback: Mute the video and show muted icon, then user can click to unmute
+        bgVideo.muted = true;
+        videoToggleIcon.classList.remove('fa-volume-up', 'fa-video');
+        videoToggleIcon.classList.add('fa-volume-mute');
+        // You might want to display a message to the user here
+      }).finally(() => {
+        // Display the video and fade out loading screen regardless of autoplay success
+        document.body.classList.add('loaded'); 
         setTimeout(function() {
           document.querySelector('.loading-screen').style.display = 'none';
-        }, 1000);
-      }, 2000);
+          bgVideo.style.display = 'block'; 
+        }, 1000); 
+      });
     });
 
-    // Countdown timer
+    // Countdown timer (existing code - no change needed)
     function updateCountdown() {
       const weddingDate = new Date("February 14, 2026 00:00:00").getTime();
       const now = new Date().getTime();
@@ -1079,23 +1105,39 @@
     setInterval(updateCountdown, 1000);
 
 
-    // Video toggle
-    document.getElementById('videoToggle').addEventListener('click', function() {
-      const video = document.getElementById('bgVideo');
-      const icon = this.querySelector('i');
-      if (video.paused) {
-        video.play();
-        icon.classList.remove('fa-video-slash');
-        icon.classList.add('fa-video');
+    // Video/Audio toggle logic for unmuted start -> mute/unmute
+    videoToggleBtn.addEventListener('click', function() {
+      if (!bgVideo.muted) {
+        // If currently unmuted, mute it
+        bgVideo.muted = true;
+        videoToggleIcon.classList.remove('fa-volume-up');
+        videoToggleIcon.classList.add('fa-volume-mute');
       } else {
-        video.pause();
-        icon.classList.remove('fa-video');
-        icon.classList.add('fa-video-slash');
+        // If currently muted, unmute it (user interaction bypasses policy)
+        bgVideo.muted = false;
+        // Also ensure it's playing if it was paused while muted
+        if (bgVideo.paused) {
+            bgVideo.play().catch(e => console.warn("Play after unmute failed:", e));
+        }
+        videoToggleIcon.classList.remove('fa-volume-mute');
+        videoToggleIcon.classList.add('fa-volume-up');
       }
     });
 
-    // Raining Flowers Logic - REMOVED AS REQUESTED
+    // Listen for video events to keep icon in sync if volume changes
+    bgVideo.addEventListener('volumechange', () => {
+        if (bgVideo.muted) {
+            videoToggleIcon.classList.remove('fa-volume-up');
+            videoToggleIcon.classList.add('fa-volume-mute');
+        } else {
+            videoToggleIcon.classList.remove('fa-volume-mute');
+            videoToggleIcon.classList.add('fa-volume-up');
+        }
+    });
 
+    // Optional: If you also want to pause/play with the button (not just mute/unmute)
+    // You'd need a more complex icon logic (e.g., fa-play, fa-pause, fa-volume-up, fa-volume-mute)
+    // For simplicity with just mute/unmute, the current setup is fine.
   </script>
 </body>
 </html>
