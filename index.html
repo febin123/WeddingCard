@@ -12,12 +12,11 @@
         extend: {
           fontFamily: {
             'cursive': ['"Alex Brush"', 'cursive'],
-            'playfair': ['"Playfair Display"', 'serif']
+            'playfair': ['"Playfair Display', 'serif']
           }
         }
       }
-    }
-  </script>
+    </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
@@ -255,7 +254,7 @@
       color: #5a4a2a;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
       position: relative;
-      display: inline-block;
+      display: inline-block; /* Crucial for calc() with 100% on pseudo-elements */
     }
 
     .couple-names:before, .couple-names:after {
@@ -265,14 +264,15 @@
       width: 50px;
       background: #b39652;
       top: 50%;
+      transform: translateY(-50%); /* Vertically centers the lines */
     }
 
     .couple-names:before {
-      left: -60px;
+      right: calc(100% + 10px); /* 100% of the .couple-names width + 10px gap */
     }
 
     .couple-names:after {
-      right: -60px;
+      left: calc(100% + 10px); /* 100% of the .couple-names width + 10px gap */
     }
 
     .welcome-text {
@@ -357,8 +357,6 @@
       transform: translateY(0);
     }
 
-    /* Music control - now part of media-controls */
-
     /* Responsive adjustments */
     @media (min-width: 640px) {
       .couple-names {
@@ -417,28 +415,44 @@
     
     @media (max-width: 639px) {
       .corner {
-        width: 150px;
+        width: 100px; /* Make corner flowers smaller on mobile */
       }
-      
       .floral-decoration {
-        width: 80px;
+        width: 50px; /* Make all side flowers significantly smaller on mobile */
       }
+
+      /* Adjust specific problematic flowers to avoid countdown overlap */
+      .left-flower-1 { left: 0%; top: 25%; } /* Push to edge, slightly lower */
+      .left-flower-2 { left: 0%; top: 50%; } /* Push to edge, higher up from original position */
+      .right-flower-1 { right: 0%; top: 30%; } /* Push to edge, slightly lower */
+      .right-flower-2 { right: 0%; top: 55%; } /* Push to edge, higher up from original position */
+      .bottom-flower { bottom: 0%; } /* Push bottom flower down more */
       
       .couple-names {
         font-size: 3rem;
+        margin-bottom: 15px; /* Add some space below names */
+        position: relative; /* Essential for absolute positioning of pseudo-elements */
+        display: inline-block; /* Allows it to shrink to content width and be centered by parent */
+        text-align: center; /* Ensures the text inside is centered */
       }
       
       .couple-names:before, 
       .couple-names:after {
-        width: 30px;
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 30px; /* Length of the line */
+        background: #b39652;
+        top: 50%;
+        transform: translateY(-50%); /* Vertically centers the line itself */
       }
       
       .couple-names:before {
-        left: -40px;
+        right: calc(100% + 10px); /* 100% of the .couple-names width + 10px gap */
       }
       
       .couple-names:after {
-        right: -40px;
+        left: calc(100% + 10px); /* 100% of the .couple-names width + 10px gap */
       }
       
       .welcome-text {
@@ -455,38 +469,27 @@
       }
       
       .countdown-box {
-        min-width: 60px;
+        min-width: 55px; /* Slightly reduce min-width to prevent overflow on very small screens */
       }
       
       .countdown-value {
-        font-size: 2rem;
+        font-size: 1.8rem; /* Slightly smaller countdown numbers */
       }
-      
-      .music-control {
-        width: 40px;
-        height: 40px;
-        bottom: 15px;
-        right: 15px;
+
+      /* Added: More padding/margin between countdown number and label on mobile */
+      .countdown-label {
+        margin-top: 8px; /* Increase space between number and label */
       }
-      
-      .music-control i {
-        font-size: 20px;
-      }
-    }
-    
-    @media (max-width: 639px) {
+
+      /* Existing other mobile adjustments */
       .main-container {
         padding: 20px 15px;
         min-height: calc(100vh - 40px); /* Account for padding */
       }
       
-      .couple-names {
-        font-size: 2rem;
-        margin-bottom: 15px; /* Add some space below names */
-      }
+      /* Couple names margin-bottom already set above */
       
       .welcome-text {
-        font-size: 1.8rem; /* Slightly smaller font */
         margin-bottom: 15px; /* Add space below welcome text */
       }
       
@@ -497,6 +500,50 @@
       .countdown-container {
         margin-bottom: 30px; /* Add space before RSVP button */
       }
+    }
+
+    /* Raining Flowers Effect CSS */
+    #flower-rain-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none; /* Allows clicks to pass through */
+        overflow: hidden; /* Hide flowers outside the viewport */
+        z-index: 0; /* Behind other content but above background */
+        opacity: 0; /* Initially hidden */
+        transition: opacity 1s ease-in-out; /* Smooth fade in/out */
+    }
+
+    #flower-rain-container.active {
+        opacity: 1;
+    }
+
+    .falling-flower {
+        position: absolute;
+        width: 30px; /* Default size, will be randomized by JS */
+        height: auto;
+        animation: fall linear infinite;
+        opacity: 0.8;
+        transform: rotateZ(var(--rotation, 0deg)); /* For random initial rotation */
+    }
+
+    @keyframes fall {
+        0% {
+            transform: translateY(-10vh) rotateZ(0deg);
+            opacity: 0;
+        }
+        10% {
+            opacity: 0.8;
+        }
+        90% {
+            opacity: 0.8;
+        }
+        100% {
+            transform: translateY(105vh) rotateZ(360deg);
+            opacity: 0;
+        }
     }
 
     /* New Section Styling */
@@ -654,50 +701,136 @@
         }
     }
 
-    /* Raining Flowers Effect CSS */
-    #flower-rain-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none; /* Allows clicks to pass through */
-        overflow: hidden; /* Hide flowers outside the viewport */
-        z-index: 0; /* Behind other content but above background */
-        opacity: 0; /* Initially hidden */
-        transition: opacity 1s ease-in-out; /* Smooth fade in/out */
+    /* Timeline Section Styling */
+    .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px 0;
     }
 
-    #flower-rain-container.active {
-        opacity: 1;
-    }
-
-    .falling-flower {
+    .timeline::after {
+        content: '';
         position: absolute;
-        width: 30px; /* Default size, will be randomized by JS */
-        height: auto;
-        animation: fall linear infinite;
-        opacity: 0.8;
-        transform: rotateZ(var(--rotation, 0deg)); /* For random initial rotation */
+        width: 3px;
+        background-color: #b39652; /* Gold line */
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -1.5px;
+        z-index: 0; /* Ensure line is behind items */
     }
 
-    @keyframes fall {
-        0% {
-            transform: translateY(-10vh) rotateZ(0deg);
-            opacity: 0;
-        }
-        10% {
-            opacity: 0.8;
-        }
-        90% {
-            opacity: 0.8;
-        }
-        100% {
-            transform: translateY(105vh) rotateZ(360deg);
-            opacity: 0;
-        }
+    .timeline-item {
+        padding: 10px 40px;
+        position: relative;
+        background-color: inherit;
+        width: 50%;
+        box-sizing: border-box;
     }
 
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        right: -10px; /* Position of the dot on the right side of the line */
+        background-color: white;
+        border: 3px solid #b39652;
+        top: 15px;
+        border-radius: 50%;
+        z-index: 1; /* Ensure dot is above the line */
+    }
+
+    /* Left-aligned items */
+    .timeline-left {
+        left: 0;
+        text-align: right;
+    }
+
+    .timeline-left::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        right: 30px;
+        border: medium solid white;
+        border-width: 10px 0 10px 10px;
+        border-color: transparent transparent transparent white;
+    }
+
+    .timeline-left::after {
+        left: calc(100% - 10px); /* Position the dot on the left side of the line */
+    }
+
+    /* Right-aligned items */
+    .timeline-right {
+        left: 50%;
+        text-align: left;
+    }
+
+    .timeline-right::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        left: 30px;
+        border: medium solid white;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent white transparent transparent;
+    }
+    /* No need to define ::after for right as it's default */
+
+    .timeline-content {
+        padding: 20px 30px;
+        background-color: white;
+        position: relative;
+        border-radius: 6px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border: 1px solid rgba(179, 150, 82, 0.2); /* Light gold border */
+    }
+    
+    .timeline-content h3 {
+        font-family: 'Playfair Display', serif;
+        @apply text-xl md:text-2xl font-semibold text-[#5a4a2a] mb-2;
+    }
+
+    .timeline-content p {
+        font-family: 'Montserrat', sans-serif;
+        @apply text-base text-[#223322] leading-normal;
+    }
+
+    /* Media queries for responsiveness */
+    @media screen and (max-width: 768px) {
+        .timeline::after {
+            left: 20px; /* Move line to the left */
+        }
+
+        .timeline-item {
+            width: 100%;
+            padding-left: 50px; /* Space for the line and dot */
+            padding-right: 15px; /* Adjust padding for mobile */
+            text-align: left;
+        }
+
+        .timeline-item::before {
+            left: 40px; /* Adjust arrow position */
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .timeline-item::after {
+            left: 10px; /* Position dot on the line */
+        }
+
+        .timeline-right {
+            left: 0%; /* All items left-aligned */
+        }
+    }
   </style>
 </head>
 <body>
@@ -767,8 +900,73 @@
     </div>
 </section>
 
+<section id="celebration" class="section-container">
+    <h2 class="section-title">The Celebration</h2>
+    <div class="timeline">
+        <div class="timeline-item timeline-left">
+            <div class="timeline-content">
+                <h3>Engagement Ceremony</h3>
+                <p><strong>Date:</strong> February 9, 2024</p>
+                <p><strong>Time:</strong> 6:00 PM</p>
+                <p><strong>Venue:</strong>Thrissur</p>
+  
+            </div>
+        </div>
 
+        <div class="timeline-item timeline-right">
+            <div class="timeline-content">
+                <h3>Pre-Wedding Social</h3>
+                <p><strong>Date:</strong> February 9, 2026</p>
+                <p><strong>Time:</strong> 7:00 PM</p>
+                <p><strong>Venue:</strong> Thrissur</p>
 
+            </div>
+        </div>
+
+        <div class="timeline-item timeline-left">
+            <div class="timeline-content">
+                <h3>Wedding Ceremony</h3>
+                <p><strong>Date:</strong> February 9, 2026</p>
+                <p><strong>Time:</strong> 4:00 PM onwards</p>
+                <p><strong>Venue:</strong> Thurssir</p>
+         
+            </div>
+        </div>
+
+        <div class="timeline-item timeline-right">
+            <div class="timeline-content">
+                <h3>Wedding Reception</h3>
+                <p><strong>Date:</strong> February 14, 2026</p>
+                <p><strong>Time:</strong> 7:00 PM onwards</p>
+                <p><strong>Venue:</strong>Kollam</p>
+                <p>Celebrate with us! Enjoy dinner, dancing, and delightful company as we begin our life as a married couple. Formal attire requested.</p>
+            </div>
+        </div>
+        
+        <div class="timeline-item timeline-left">
+            <div class="timeline-content">
+                <h3>Farewell Brunch</h3>
+                <p><strong>Date:</strong> February 15, 2026</p>
+                <p><strong>Time:</strong> 10:00 AM - 12:00 PM</p>
+                <p><strong>Venue:</strong> Kollam</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section id="travel-accommodation" class="section-container">
+    <h2 class="section-title">Travel & Stay</h2>
+    <div class="section-content">
+        <p>For our out-of-town guests. Please find the details below:</p>
+        <ul class="text-left mx-auto max-w-md">
+            <li><strong>The Grand Hotel:</strong> <a href="#" target="_blank">Book Here</a></li>
+            <li><strong>Comfort Inn & Suites:</strong> <a href="#" target="_blank">Book Here</a></li>
+        </ul>
+        <p class="mt-4">The venue is easily accessible by car, from the recommended hotels.</p>
+\
+    </div>
+</section>
 
 
 <section id="faq" class="section-container">
@@ -794,8 +992,8 @@
 <section id="contact" class="section-container">
     <h2 class="section-title">Contact Us</h2>
     <div class="section-content">
-        <p>If you have any further questions, please don't hesitate to reach out to our wedding coordinator:</p>
-        <p class="mt-4"><strong>Wedding Coordinator Name</strong></p>
+        <p>If you have any further questions, please don't hesitate to reach out/p>
+        <p class="mt-4"><strong>Febin & Christin </strong></p>
         <p>Email: <a href="mailto:coordinator@example.com">coordinator@example.com</a></p>
         <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
     </div>
@@ -915,7 +1113,8 @@
                 if (!flowersActive) {
                     flowersActive = true;
                     flowerRainContainer.classList.add('active'); // Fade in container
-                    flowerInterval = setInterval(createFallingFlower, 200); // Generate a flower every 200ms
+                    // MODIFIED LINE: Increased interval for even fewer flowers
+                    flowerInterval = setInterval(createFallingFlower, 1000); // Generate a flower every 1000ms (1 second)
                 }
             } else {
                 // "Our Story" section is out of view
