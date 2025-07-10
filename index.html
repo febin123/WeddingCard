@@ -16,10 +16,11 @@
           }
         }
       }
-    </script>
+    }
+  </script>
 
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -29,10 +30,10 @@
       @apply min-h-screen flex items-center justify-center text-[#223322] text-center relative overflow-x-hidden;
       font-family: "Playfair Display", serif;
       background: radial-gradient(circle at 50% 40%, #f9faf7 0%, #e3eadc 55%, #b3c5a6 100%);
-      padding: 20px; /* Add some padding on mobile */
+      padding: 20px;
     }
 
-    /* Add this new loading styles */
+    /* Loading screen */
     .loading-screen {
       position: fixed;
       top: 0;
@@ -161,8 +162,8 @@
       right: -20px;
       animation-delay: 9s;
     }
-    /* Media controls (removed as music is removed) */
-    /*
+
+    /* Media controls */
     .media-controls {
       position: fixed;
       bottom: 20px;
@@ -205,7 +206,7 @@
         font-size: 20px;
       }
     }
-    */
+    
     /* Side flowers */
     .left-flower-1 { left: 5%; top: 20%; transform: rotate(-15deg); }
     .left-flower-2 { left: 8%; top: 60%; transform: rotate(10deg); }
@@ -227,13 +228,13 @@
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 40px 20px; /* Reduced padding on mobile */
+      padding: 40px 20px;
       position: relative;
       z-index: 1;
       display: flex;
       flex-direction: column;
-      justify-content: center; /* This ensures vertical centering */
-      min-height: 100vh; /* Take full viewport height */
+      justify-content: center;
+      min-height: 100vh;
     }
 
     /* Wedding content */
@@ -244,7 +245,7 @@
       align-items: center;
       justify-content: center;
       width: 100%;
-      flex-grow: 1; /* Allows it to grow and center content */
+      flex-grow: 1;
     }
 
     .couple-names {
@@ -256,7 +257,7 @@
       color: #5a4a2a;
       text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
       position: relative;
-      display: inline-block; /* Crucial for calc() with 100% on pseudo-elements */
+      display: inline-block;
     }
 
     .couple-names:before, .couple-names:after {
@@ -266,15 +267,15 @@
       width: 50px;
       background: #b39652;
       top: 50%;
-      transform: translateY(-50%); /* Vertically centers the lines */
+      transform: translateY(-50%);
     }
 
     .couple-names:before {
-      right: calc(100% + 10px); /* 100% of the .couple-names width + 10px gap */
+      right: calc(100% + 10px);
     }
 
     .couple-names:after {
-      left: calc(100% + 10px); /* 100% of the .couple-names width + 10px gap */
+      left: calc(100% + 10px);
     }
 
     .welcome-text {
@@ -417,25 +418,24 @@
     
     @media (max-width: 639px) {
       .corner {
-        width: 100px; /* Make corner flowers smaller on mobile */
+        width: 100px;
       }
       .floral-decoration {
-        width: 50px; /* Make all side flowers significantly smaller on mobile */
+        width: 50px;
       }
 
-      /* Adjust specific problematic flowers to avoid countdown overlap */
-      .left-flower-1 { left: 0%; top: 25%; } /* Push to edge, slightly lower */
-      .left-flower-2 { left: 0%; top: 50%; } /* Push to edge, higher up from original position */
-      .right-flower-1 { right: 0%; top: 30%; } /* Push to edge, slightly lower */
-      .right-flower-2 { right: 0%; top: 55%; } /* Push to edge, higher up from original position */
-      .bottom-flower { bottom: 0%; } /* Push bottom flower down more */
+      .left-flower-1 { left: 0%; top: 25%; }
+      .left-flower-2 { left: 0%; top: 50%; }
+      .right-flower-1 { right: 0%; top: 30%; }
+      .right-flower-2 { right: 0%; top: 55%; }
+      .bottom-flower { bottom: 0%; }
       
       .couple-names {
         font-size: 3rem;
-        margin-bottom: 15px; /* Add some space below names */
-        position: relative; /* Essential for absolute positioning of pseudo-elements */
-        display: inline-block; /* Allows it to shrink to content width and be centered by parent */
-        text-align: center; /* Ensures the text inside is centered */
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+        text-align: center;
       }
       
       .couple-names:before, 
@@ -443,18 +443,18 @@
         content: "";
         position: absolute;
         height: 2px;
-        width: 30px; /* Length of the line */
+        width: 30px;
         background: #b39652;
         top: 50%;
-        transform: translateY(-50%); /* Vertically centers the line itself */
+        transform: translateY(-50%);
       }
       
       .couple-names:before {
-        right: calc(100% + 10px); /* 100% of the .couple-names width + 10px gap */
+        right: calc(100% + 10px);
       }
       
       .couple-names:after {
-        left: calc(100% + 10px); /* 100% of the .couple-names width + 10px gap */
+        left: calc(100% + 10px);
       }
       
       .welcome-text {
@@ -471,55 +471,51 @@
       }
       
       .countdown-box {
-        min-width: 55px; /* Slightly reduce min-width to prevent overflow on very small screens */
+        min-width: 55px;
       }
       
       .countdown-value {
-        font-size: 1.8rem; /* Slightly smaller countdown numbers */
+        font-size: 1.8rem;
       }
 
-      /* Added: More padding/margin between countdown number and label on mobile */
       .countdown-label {
-        margin-top: 8px; /* Increase space between number and label */
+        margin-top: 8px;
       }
 
-      /* Existing other mobile adjustments */
       .main-container {
         padding: 20px 15px;
-        min-height: calc(100vh - 40px); /* Account for padding */
+        min-height: calc(100vh - 40px);
       }
       
-      /* Couple names margin-bottom already set above */
-      
       .welcome-text {
-        margin-bottom: 15px; /* Add space below welcome text */
+        margin-bottom: 15px;
       }
       
       .wedding-date {
-        margin-bottom: 25px; /* Add space before countdown */
+        margin-bottom: 25px;
       }
       
       .countdown-container {
-        margin-bottom: 30px; /* Add space before RSVP button */
+        margin-bottom: 30px;
       }
     }
 
     /* New Story Section Floral Accents */
     .section-container {
-        position: relative; /* Make sure this is relative for absolute positioning of children */
-        overflow: hidden; /* Hide parts of flowers if they go outside */
+        position: relative;
+        overflow: hidden;
     }
 
     .story-flower-1,
     .story-flower-2,
     .story-flower-3 {
         position: absolute;
-        width: 80px; /* Adjust size as needed */
+        width: 80px;
         opacity: 0.7;
         pointer-events: none;
         user-select: none;
-        z-index: 0; /* Keep them in the background */
-        animation: float 10s infinite ease-in-out alternate; /* Use your existing float animation */
+        z-index: 0;
+        animation: float 10s infinite ease-in-out alternate;
     }
 
     .story-flower-1 {
@@ -543,13 +539,12 @@
         animation-delay: 4s;
     }
 
-    /* Adjust for smaller screens */
     @media (max-width: 768px) {
         .story-flower-1,
         .story-flower-2,
         .story-flower-3 {
-            width: 50px; /* Smaller flowers on mobile */
-            opacity: 0.5; /* Slightly less prominent */
+            width: 50px;
+            opacity: 0.5;
         }
         .story-flower-1 {
             top: 5%;
@@ -565,15 +560,13 @@
         }
     }
 
-
-    /* New Section Styling */
-    /* (This part was already here, keeping it for completeness) */
+    /* Section Styling */
     .section-container {
         @apply w-full max-w-3xl mx-auto py-16 px-4 md:px-8;
         background-color: rgba(255, 255, 255, 0.6);
         border-radius: 10px;
         box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-        margin-top: 40px; /* Space between sections */
+        margin-top: 40px;
         margin-bottom: 40px;
         text-align: center;
     }
@@ -653,25 +646,25 @@
     /* Our Story specific styling */
     .our-story-content {
         display: flex;
-        flex-direction: column; /* Stack on mobile */
+        flex-direction: column;
         align-items: center;
-        gap: 30px; /* Space between image and text */
-        text-align: center; /* Center text on mobile */
+        gap: 30px;
+        text-align: center;
     }
 
     .our-story-image {
         width: 100%;
-        max-width: 300px; /* Control image size */
+        max-width: 300px;
         height: auto;
         border-radius: 10px;
-        box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* More prominent shadow */
-        border: 3px solid #b39652; /* Subtle border */
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        border: 3px solid #b39652;
         object-fit: cover;
     }
 
     .our-story-text {
-        flex: 1; /* Allow text to take remaining space */
-        text-align: center; /* Default center for mobile */
+        flex: 1;
+        text-align: center;
     }
 
     @media (min-width: 768px) {
@@ -687,17 +680,16 @@
         .section-container {
             padding: 30px 20px;
         }
-        /* Desktop specific Our Story layout */
         .our-story-content {
-            flex-direction: row; /* Side-by-side on desktop */
-            text-align: left; /* Align text left on desktop */
+            flex-direction: row;
+            text-align: left;
         }
         .our-story-image {
-            order: 2; /* Image on the right */
-            margin-left: 30px; /* Space between text and image */
+            order: 2;
+            margin-left: 30px;
         }
         .our-story-text {
-            order: 1; /* Text on the left */
+            order: 1;
         }
     }
 
@@ -718,7 +710,7 @@
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         }
         .our-story-image {
-            max-width: 250px; /* Smaller image on mobile */
+            max-width: 250px;
         }
     }
 
@@ -734,12 +726,12 @@
         content: '';
         position: absolute;
         width: 3px;
-        background-color: #b39652; /* Gold line */
+        background-color: #b39652;
         top: 0;
         bottom: 0;
         left: 50%;
         margin-left: -1.5px;
-        z-index: 0; /* Ensure line is behind items */
+        z-index: 0;
     }
 
     .timeline-item {
@@ -755,12 +747,12 @@
         position: absolute;
         width: 20px;
         height: 20px;
-        right: -10px; /* Position of the dot on the right side of the line */
+        right: -10px;
         background-color: white;
         border: 3px solid #b39652;
         top: 15px;
         border-radius: 50%;
-        z-index: 1; /* Ensure dot is above the line */
+        z-index: 1;
     }
 
     /* Left-aligned items */
@@ -783,7 +775,7 @@
     }
 
     .timeline-left::after {
-        left: calc(100% - 10px); /* Position the dot on the left side of the line */
+        left: calc(100% - 10px);
     }
 
     /* Right-aligned items */
@@ -804,7 +796,6 @@
         border-width: 10px 10px 10px 0;
         border-color: transparent white transparent transparent;
     }
-    /* No need to define ::after for right as it's default */
 
     .timeline-content {
         padding: 20px 30px;
@@ -812,7 +803,7 @@
         position: relative;
         border-radius: 6px;
         box-shadow: 0 4px 15px rgba(0,0,0,0.08);
-        border: 1px solid rgba(179, 150, 82, 0.2); /* Light gold border */
+        border: 1px solid rgba(179, 150, 82, 0.2);
     }
     
     .timeline-content h3 {
@@ -828,33 +819,49 @@
     /* Media queries for responsiveness */
     @media screen and (max-width: 768px) {
         .timeline::after {
-            left: 20px; /* Move line to the left */
+            left: 20px;
         }
 
         .timeline-item {
             width: 100%;
-            padding-left: 50px; /* Space for the line and dot */
-            padding-right: 15px; /* Adjust padding for mobile */
+            padding-left: 50px;
+            padding-right: 15px;
             text-align: left;
         }
 
         .timeline-item::before {
-            left: 40px; /* Adjust arrow position */
+            left: 40px;
             border-width: 10px 10px 10px 0;
             border-color: transparent white transparent transparent;
         }
 
         .timeline-item::after {
-            left: 10px; /* Position dot on the line */
+            left: 10px;
         }
 
         .timeline-right {
-            left: 0%; /* All items left-aligned */
+            left: 0%;
         }
     }
   </style>
 </head>
 <body>
+
+  <!-- Background Music Element -->
+  <audio id="bgMusic" loop>
+    <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- Music Controls -->
+  <div class="media-controls">
+    <div class="media-control" id="playPauseBtn">
+      <i class="fas fa-play"></i>
+    </div>
+    <div class="media-control" id="muteBtn">
+      <i class="fas fa-volume-up"></i>
+    </div>
+  </div>
 
   <div class="loading-screen">
     <div class="loading-initials">C & F</div>
@@ -877,7 +884,6 @@
 
   <div class="main-container">
     <div class="wedding-content">
-       <iframe width="560" height="315" src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
        
         <h1 class="couple-names">Christin & Febin</h1>
       <h2 class="welcome-text">Welcome to<br>our wedding</h2>
@@ -912,7 +918,7 @@
             <p class="mb-4">From a chance encounter to a love that grew, our journey has been filled with laughter, shared dreams, and unwavering support. We are so excited to officially start our next chapter and celebrate with all of you!</p>
             <p>It all began when we met at a mutual friend's gathering. We instantly connected over our shared love for adventure and quiet evenings. Over the years, our bond deepened, and now, we're ready to say "I do" and make it official!</p>
         </div>
-        <img src="WhatsApp Image 2025-07-08 at 19.59.39_cee60807.jpg" alt="Christin and Febin's Story" class="our-story-image">
+        <img src="/WhatsApp Image 2025-07-08 at 19.59.39_3fc053b1.jpg" alt="Christin and Febin's Story" class="our-story-image">
     </div>
 
     <img class="story-flower-1" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="Flower Decoration">
@@ -926,30 +932,30 @@
         <div class="timeline-item timeline-left">
             <div class="timeline-content">
                 <h3>Engagement Ceremony</h3>
-                <p><strong>Date:</strong> August 20, 2024</p>
+                <p><strong>Date:</strong> February,9th 2026</p>
                 <p><strong>Time:</strong> 6:00 PM</p>
-                <p><strong>Venue:</strong> Rose Garden Event Hall</p>
-                <p>A beautiful evening where we exchanged rings and celebrated our commitment surrounded by immediate family.</p>
+                <p><strong>Venue:</strong> Thrissur</p>
+            
             </div>
         </div>
 
         <div class="timeline-item timeline-right">
             <div class="timeline-content">
                 <h3>Pre-Wedding Social</h3>
-                <p><strong>Date:</strong> February 13, 2026</p>
+                <p><strong>Date:</strong> February,9th 2026</p>
                 <p><strong>Time:</strong> 7:00 PM</p>
-                <p><strong>Venue:</strong> The Skylight Lounge</p>
-                <p>A relaxed gathering for all our guests to mingle and kick off the wedding festivities the night before the main event.</p>
+                <p><strong>Venue:</strong> Thrissur</p>
+          
             </div>
         </div>
 
         <div class="timeline-item timeline-left">
             <div class="timeline-content">
                 <h3>Wedding Ceremony</h3>
-                <p><strong>Date:</strong> February 14, 2026</p>
+                <p><strong>Date:</strong> February,14th 2026</p>
                 <p><strong>Time:</strong> 4:00 PM onwards</p>
-                <p><strong>Venue:</strong> The Grand Ballroom, The Elegant Estate</p>
-                <p>Join us as we exchange our vows in a beautiful ceremony, surrounded by our loved ones. Cocktail attire requested.</p>
+                <p><strong>Venue:</strong> Kollam</p>
+          
             </div>
         </div>
 
@@ -958,34 +964,24 @@
                 <h3>Wedding Reception</h3>
                 <p><strong>Date:</strong> February 14, 2026</p>
                 <p><strong>Time:</strong> 7:00 PM onwards</p>
-                <p><strong>Venue:</strong> The Crystal Pavilion, The Elegant Estate</p>
-                <p>Celebrate with us! Enjoy dinner, dancing, and delightful company as we begin our life as a married couple. Formal attire requested.</p>
+                <p><strong>Venue:</strong> Kollam</p>
+           
             </div>
         </div>
         
-        <div class="timeline-item timeline-left">
-            <div class="timeline-content">
-                <h3>Farewell Brunch</h3>
-                <p><strong>Date:</strong> February 15, 2026</p>
-                <p><strong>Time:</strong> 10:00 AM - 12:00 PM</p>
-                <p><strong>Venue:</strong> The Garden Terrace, The Elegant Estate</p>
-                <p>A casual brunch to say goodbye to our family and friends before they depart.</p>
-            </div>
-        </div>
-
     </div>
 </section>
 
 <section id="travel-accommodation" class="section-container">
     <h2 class="section-title">Travel & Stay</h2>
     <div class="section-content">
-        <p>For our out-of-town guests, we've arranged for special rates at nearby hotels. Please find the details below:</p>
+        <p>For our out-of-town guests, at nearby hotels Please find the details below:</p>
         <ul class="text-left mx-auto max-w-md">
-            <li><strong>The Grand Hotel:</strong> <a href="#" target="_blank">Book Here</a> (mention "Christin & Febin Wedding" for discount)</li>
-            <li><strong>Comfort Inn & Suites:</strong> <a href="#" target="_blank">Book Here</a> (group code: CFWEDDING)</li>
+            <li><strong>The Grand Hotel:</strong> <a href="#" target="_blank">Book Here</a> </li>
+            <li><strong>Comfort Inn & Suites:</strong> <a href="#" target="_blank">Book Here</a></li>
         </ul>
         <p class="mt-4">The venue is easily accessible by car, and we will provide shuttle services from the recommended hotels.</p>
-        <p class="mt-2"><strong>Nearest Airport:</strong> Cityville International Airport (CVIA)</p>
+        <p class="mt-2"><strong>Nearest Airport:</strong> Kochi International Airport (CVIA)</p>
     </div>
 </section>
 
@@ -1029,7 +1025,7 @@
       }, 1000); 
     });
 
-    // Countdown timer (existing code - no change needed)
+    // Countdown timer
     function updateCountdown() {
       const weddingDate = new Date("February 14, 2026 00:00:00").getTime();
       const now = new Date().getTime();
@@ -1050,6 +1046,54 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
+    // Music controls
+    document.addEventListener('DOMContentLoaded', function() {
+      const bgMusic = document.getElementById('bgMusic');
+      const playPauseBtn = document.getElementById('playPauseBtn');
+      const muteBtn = document.getElementById('muteBtn');
+      
+      // Try to autoplay (note: many browsers block this without user interaction)
+      bgMusic.volume = 0.3; // Set lower volume by default
+      const playPromise = bgMusic.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Autoplay was prevented, show paused state
+          playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        });
+      }
+      
+      // Play/Pause button
+      playPauseBtn.addEventListener('click', function() {
+        if (bgMusic.paused) {
+          bgMusic.play();
+          playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+          bgMusic.pause();
+          playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+      });
+      
+      // Mute button
+      muteBtn.addEventListener('click', function() {
+        if (bgMusic.muted) {
+          bgMusic.muted = false;
+          muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+        } else {
+          bgMusic.muted = true;
+          muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+        }
+      });
+      
+      // Update button states based on audio state
+      bgMusic.addEventListener('play', function() {
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+      });
+      
+      bgMusic.addEventListener('pause', function() {
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+      });
+    });
   </script>
 </body>
 </html>
