@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Background Music Player</title>
+</head>
+<body>
+  <audio id="playerAudio" loop autoplay muted>
+    <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    const playerAudio = document.getElementById('playerAudio');
+
+    // This script runs INSIDE the iframe
+    // It's crucial for the parent window to communicate with this iframe's audio
+    window.addEventListener('message', function(event) {
+        // Ensure the message comes from your expected origin for security
+        // In a real scenario, replace '*' with your actual domain
+        if (event.origin !== window.location.origin && event.origin !== 'null') {
+             // For local files (file://), event.origin is 'null'.
+             // For hosted content, replace '*' with your domain like 'https://yourwebsite.com'
+             // If you are testing locally using a server (e.g., localhost), event.origin will be that origin.
+             console.warn("Message received from unexpected origin:", event.origin);
+             return;
+        }
+
+        const data = event.data;
+        if (data.command === 'setMuted') {
+            playerAudio.muted = data.value;
+            // Send a response back to the parent indicating the new muted state
+            window.parent.postMessage({ type: 'audioState', muted: playerAudio.muted }, '*');
+        } else if (data.command === 'play') {
+            playerAudio.play().then(() => {
+                window.parent.postMessage({ type: 'audioState', playing: !playerAudio.paused, muted: playerAudio.muted }, '*');
+            }).catch(e => {
+                console.error("Error playing audio in iframe:", e);
+                window.parent.postMessage({ type: 'audioState', playing: false, muted: playerAudio.muted, error: true }, '*');
+            });
+        }
+    });
+
+    // Send initial state to parent
+    window.addEventListener('load', () => {
+        window.parent.postMessage({ type: 'audioState', muted: playerAudio.muted }, '*');
+    });
+
+    // Send state on volume change (if user controls are enabled or policy changes)
+    playerAudio.addEventListener('volumechange', () => {
+        window.parent.postMessage({ type: 'audioState', muted: playerAudio.muted }, '*');
+    });
+
+  </script>
+</body>
+</html>

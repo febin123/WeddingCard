@@ -862,10 +862,8 @@
     <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   </div>
 
-  <audio id="bgMusic" autoplay loop playsinline style="">
-    <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+  <iframe id="bgMusicIframe" src="audio-player.html" allow="autoplay" style="width:0;height:0;border:0;display:none;"></iframe>
+
 
   <img class="corner tl" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   <img class="corner tr" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
@@ -1051,37 +1049,55 @@
   </div>
 
   <script>
-    const bgMusic = document.getElementById('bgMusic'); // Changed from bgVideo
-    const musicToggleBtn = document.getElementById('musicToggle'); // Changed from videoToggle
+    const bgMusicIframe = document.getElementById('bgMusicIframe');
+    const musicToggleBtn = document.getElementById('musicToggle');
     const musicToggleIcon = musicToggleBtn.querySelector('i');
+
+    let currentMusicMutedState = true; // Track the muted state, initialized to true (iframe will likely start muted)
+
+    // Listener for messages from the iframe
+    window.addEventListener('message', function(event) {
+        // Ensure the message comes from your expected origin for security
+        // Replace 'null' with the actual origin of your hosted 'audio-player.html' (e.g., 'https://yourwebsite.com')
+        // For local files (file://), event.origin is 'null'.
+        // If you are testing locally using a server (e.g., localhost), event.origin will be that origin.
+        if (event.source !== bgMusicIframe.contentWindow || (event.origin !== window.location.origin && event.origin !== 'null')) {
+            console.warn("Message received from unexpected source/origin:", event.origin, event.data);
+            return;
+        }
+
+        const data = event.data;
+        if (data.type === 'audioState') {
+            currentMusicMutedState = data.muted;
+            if (currentMusicMutedState) {
+                musicToggleIcon.classList.remove('fa-volume-up');
+                musicToggleIcon.classList.add('fa-volume-mute');
+            } else {
+                musicToggleIcon.classList.remove('fa-volume-mute');
+                musicToggleIcon.classList.add('fa-volume-up');
+            }
+            console.log("Iframe reported music muted state:", currentMusicMutedState);
+        }
+    });
+
+    // Function to send a command to the iframe
+    function sendCommandToIframe(command, value) {
+        if (bgMusicIframe.contentWindow) {
+            bgMusicIframe.contentWindow.postMessage({ command: command, value: value }, '*'); // Use '*' for any origin, or specify targetOrigin for security
+        }
+    }
 
     // On page load
     window.addEventListener('load', function() {
-      // Set muted to false to attempt unmuted autoplay
-      // REMEMBER: Browsers will likely block this unless there's a prior user interaction.
-      bgMusic.muted = false; 
+      document.body.classList.add('loaded'); // Fades out loading screen
       
-      bgMusic.play().then(() => {
-        // Play was successful (unmuted)
-        console.log("Music started unmuted.");
-        musicToggleIcon.classList.remove('fa-volume-mute'); 
-        musicToggleIcon.classList.add('fa-volume-up');
-      }).catch(e => {
-        // Autoplay was prevented (most common scenario for unmuted audio)
-        console.warn("Unmuted audio autoplay prevented:", e);
-        // Fallback: Mute the audio and show muted icon, then user can click to unmute
-        bgMusic.muted = true;
-        musicToggleIcon.classList.remove('fa-volume-up');
-        musicToggleIcon.classList.add('fa-volume-mute');
-        // You might want to display a message to the user here
-      }).finally(() => {
-        // Fade out loading screen regardless of autoplay success
-        document.body.classList.add('loaded'); 
-        setTimeout(function() {
-          document.querySelector('.loading-screen').style.display = 'none';
-          // No need to display bgMusic, as it's an audio element and inherently not visible
-        }, 1000); 
-      });
+      setTimeout(function() {
+        document.querySelector('.loading-screen').style.display = 'none';
+        // When the loading screen is gone, try to play the music unmuted in the iframe
+        // This will still be subject to browser autoplay policies.
+        sendCommandToIframe('setMuted', false); // Attempt to unmute
+        sendCommandToIframe('play'); // Attempt to play
+      }, 1000); 
     });
 
     // Countdown timer (existing code - no change needed)
@@ -1106,49 +1122,14 @@
     setInterval(updateCountdown, 1000);
 
 
-    // Music toggle logic for unmuted start -> mute/unmute
+    // Music toggle logic
     musicToggleBtn.addEventListener('click', function() {
-      if (!bgMusic.muted) {
-        // If currently unmuted, mute it
-        bgMusic.muted = true;
-        musicToggleIcon.classList.remove('fa-volume-up');
-        musicToggleIcon.classList.add('fa-volume-mute');
-      } else {
-        // If currently muted, unmute it (user interaction bypasses policy)
-        bgMusic.muted = false;
-        // Also ensure it's playing if it was paused while muted
-        if (bgMusic.paused) {
-            bgMusic.play().catch(e => console.warn("Play after unmute failed:", e));
-        }
-        musicToggleIcon.classList.remove('fa-volume-mute');
-        musicToggleIcon.classList.add('fa-volume-up');
+      if (!currentMusicMutedState) { // If currently unmuted
+        sendCommandToIframe('setMuted', true); // Mute
+      } else { // If currently muted
+        sendCommandToIframe('setMuted', false); // Unmute
+        sendCommandToIframe('play'); // Attempt to play (user gesture)
       }
-    });
-
-    // Listen for audio events to keep icon in sync if volume changes
-    bgMusic.addEventListener('volumechange', () => {
-        if (bgMusic.muted) {
-            musicToggleIcon.classList.remove('fa-volume-up');
-            musicToggleIcon.classList.add('fa-volume-mute');
-        } else {
-            musicToggleIcon.classList.remove('fa-volume-mute');
-            musicToggleIcon.classList.add('fa-volume-up');
-        }
-    });
-
-    // Handle play/pause if audio stops for other reasons (e.g., tab backgrounding)
-    bgMusic.addEventListener('play', () => {
-        // If it starts playing, ensure the icon is correct (unmuted)
-        if (!bgMusic.muted) {
-            musicToggleIcon.classList.remove('fa-volume-mute');
-            musicToggleIcon.classList.add('fa-volume-up');
-        }
-    });
-
-    bgMusic.addEventListener('pause', () => {
-        // If it pauses, and it's not explicitly muted, you might want a "play" icon
-        // but for a background loop, 'mute' might be the primary control.
-        // For simplicity, we'll just keep the volume icon based on 'muted' state.
     });
 
   </script>
