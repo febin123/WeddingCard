@@ -862,9 +862,10 @@
     <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   </div>
 
-  <video id="bgVideo" autoplay loop playsinline style="display: none;">
-    <source src="/Sakhi (pachai nirame) - Bgm ringtone _ download link in discription 👇.mp4" type="video/mp4">
-  </video>
+  <audio id="bgMusic" loop playsinline style="">
+    <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
   <img class="corner tl" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   <img class="corner tr" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
@@ -1044,41 +1045,41 @@
 </section>
 
 <div class="media-controls">
-    <div id="videoToggle" class="media-control">
+    <div id="musicToggle" class="media-control">
       <i class="fas fa-volume-up"></i>
     </div>
   </div>
 
   <script>
-    const bgVideo = document.getElementById('bgVideo');
-    const videoToggleBtn = document.getElementById('videoToggle');
-    const videoToggleIcon = videoToggleBtn.querySelector('i');
+    const bgMusic = document.getElementById('bgMusic'); // Changed from bgVideo
+    const musicToggleBtn = document.getElementById('musicToggle'); // Changed from videoToggle
+    const musicToggleIcon = musicToggleBtn.querySelector('i');
 
     // On page load
     window.addEventListener('load', function() {
       // Set muted to false to attempt unmuted autoplay
       // REMEMBER: Browsers will likely block this unless there's a prior user interaction.
-      bgVideo.muted = false; 
+      bgMusic.muted = false; 
       
-      bgVideo.play().then(() => {
+      bgMusic.play().then(() => {
         // Play was successful (unmuted)
-        console.log("Video started unmuted.");
-        videoToggleIcon.classList.remove('fa-volume-mute', 'fa-video-slash'); // Remove slash if present
-        videoToggleIcon.classList.add('fa-volume-up');
+        console.log("Music started unmuted.");
+        musicToggleIcon.classList.remove('fa-volume-mute'); 
+        musicToggleIcon.classList.add('fa-volume-up');
       }).catch(e => {
-        // Autoplay was prevented (most common scenario for unmuted video)
-        console.warn("Unmuted video autoplay prevented:", e);
-        // Fallback: Mute the video and show muted icon, then user can click to unmute
-        bgVideo.muted = true;
-        videoToggleIcon.classList.remove('fa-volume-up', 'fa-video');
-        videoToggleIcon.classList.add('fa-volume-mute');
+        // Autoplay was prevented (most common scenario for unmuted audio)
+        console.warn("Unmuted audio autoplay prevented:", e);
+        // Fallback: Mute the audio and show muted icon, then user can click to unmute
+        bgMusic.muted = true;
+        musicToggleIcon.classList.remove('fa-volume-up');
+        musicToggleIcon.classList.add('fa-volume-mute');
         // You might want to display a message to the user here
       }).finally(() => {
-        // Display the video and fade out loading screen regardless of autoplay success
+        // Fade out loading screen regardless of autoplay success
         document.body.classList.add('loaded'); 
         setTimeout(function() {
           document.querySelector('.loading-screen').style.display = 'none';
-          bgVideo.style.display = 'block'; 
+          // No need to display bgMusic, as it's an audio element and inherently not visible
         }, 1000); 
       });
     });
@@ -1105,39 +1106,51 @@
     setInterval(updateCountdown, 1000);
 
 
-    // Video/Audio toggle logic for unmuted start -> mute/unmute
-    videoToggleBtn.addEventListener('click', function() {
-      if (!bgVideo.muted) {
+    // Music toggle logic for unmuted start -> mute/unmute
+    musicToggleBtn.addEventListener('click', function() {
+      if (!bgMusic.muted) {
         // If currently unmuted, mute it
-        bgVideo.muted = true;
-        videoToggleIcon.classList.remove('fa-volume-up');
-        videoToggleIcon.classList.add('fa-volume-mute');
+        bgMusic.muted = true;
+        musicToggleIcon.classList.remove('fa-volume-up');
+        musicToggleIcon.classList.add('fa-volume-mute');
       } else {
         // If currently muted, unmute it (user interaction bypasses policy)
-        bgVideo.muted = false;
+        bgMusic.muted = false;
         // Also ensure it's playing if it was paused while muted
-        if (bgVideo.paused) {
-            bgVideo.play().catch(e => console.warn("Play after unmute failed:", e));
+        if (bgMusic.paused) {
+            bgMusic.play().catch(e => console.warn("Play after unmute failed:", e));
         }
-        videoToggleIcon.classList.remove('fa-volume-mute');
-        videoToggleIcon.classList.add('fa-volume-up');
+        musicToggleIcon.classList.remove('fa-volume-mute');
+        musicToggleIcon.classList.add('fa-volume-up');
       }
     });
 
-    // Listen for video events to keep icon in sync if volume changes
-    bgVideo.addEventListener('volumechange', () => {
-        if (bgVideo.muted) {
-            videoToggleIcon.classList.remove('fa-volume-up');
-            videoToggleIcon.classList.add('fa-volume-mute');
+    // Listen for audio events to keep icon in sync if volume changes
+    bgMusic.addEventListener('volumechange', () => {
+        if (bgMusic.muted) {
+            musicToggleIcon.classList.remove('fa-volume-up');
+            musicToggleIcon.classList.add('fa-volume-mute');
         } else {
-            videoToggleIcon.classList.remove('fa-volume-mute');
-            videoToggleIcon.classList.add('fa-volume-up');
+            musicToggleIcon.classList.remove('fa-volume-mute');
+            musicToggleIcon.classList.add('fa-volume-up');
         }
     });
 
-    // Optional: If you also want to pause/play with the button (not just mute/unmute)
-    // You'd need a more complex icon logic (e.g., fa-play, fa-pause, fa-volume-up, fa-volume-mute)
-    // For simplicity with just mute/unmute, the current setup is fine.
+    // Handle play/pause if audio stops for other reasons (e.g., tab backgrounding)
+    bgMusic.addEventListener('play', () => {
+        // If it starts playing, ensure the icon is correct (unmuted)
+        if (!bgMusic.muted) {
+            musicToggleIcon.classList.remove('fa-volume-mute');
+            musicToggleIcon.classList.add('fa-volume-up');
+        }
+    });
+
+    bgMusic.addEventListener('pause', () => {
+        // If it pauses, and it's not explicitly muted, you might want a "play" icon
+        // but for a background loop, 'mute' might be the primary control.
+        // For simplicity, we'll just keep the volume icon based on 'muted' state.
+    });
+
   </script>
 </body>
 </html>
