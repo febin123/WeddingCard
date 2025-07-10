@@ -502,51 +502,70 @@
       }
     }
 
-    /* Raining Flowers Effect CSS */
-    #flower-rain-container {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none; /* Allows clicks to pass through */
-        overflow: hidden; /* Hide flowers outside the viewport */
-        z-index: 0; /* Behind other content but above background */
-        opacity: 0; /* Initially hidden */
-        transition: opacity 1s ease-in-out; /* Smooth fade in/out */
+    /* New Story Section Floral Accents */
+    .section-container {
+        position: relative; /* Make sure this is relative for absolute positioning of children */
+        overflow: hidden; /* Hide parts of flowers if they go outside */
     }
 
-    #flower-rain-container.active {
-        opacity: 1;
-    }
-
-    .falling-flower {
+    .story-flower-1,
+    .story-flower-2,
+    .story-flower-3 {
         position: absolute;
-        width: 30px; /* Default size, will be randomized by JS */
-        height: auto;
-        animation: fall linear infinite;
-        opacity: 0.8;
-        transform: rotateZ(var(--rotation, 0deg)); /* For random initial rotation */
+        width: 80px; /* Adjust size as needed */
+        opacity: 0.7;
+        pointer-events: none;
+        user-select: none;
+        z-index: 0; /* Keep them in the background */
+        animation: float 10s infinite ease-in-out alternate; /* Use your existing float animation */
     }
 
-    @keyframes fall {
-        0% {
-            transform: translateY(-10vh) rotateZ(0deg);
-            opacity: 0;
+    .story-flower-1 {
+        top: 10%;
+        left: 5%;
+        transform: rotate(-20deg);
+        animation-delay: 0s;
+    }
+
+    .story-flower-2 {
+        bottom: 15%;
+        right: 8%;
+        transform: rotate(10deg) scaleX(-1);
+        animation-delay: 2s;
+    }
+
+    .story-flower-3 {
+        top: 25%;
+        right: 15%;
+        transform: rotate(45deg);
+        animation-delay: 4s;
+    }
+
+    /* Adjust for smaller screens */
+    @media (max-width: 768px) {
+        .story-flower-1,
+        .story-flower-2,
+        .story-flower-3 {
+            width: 50px; /* Smaller flowers on mobile */
+            opacity: 0.5; /* Slightly less prominent */
         }
-        10% {
-            opacity: 0.8;
+        .story-flower-1 {
+            top: 5%;
+            left: 0%;
         }
-        90% {
-            opacity: 0.8;
+        .story-flower-2 {
+            bottom: 5%;
+            right: 0%;
         }
-        100% {
-            transform: translateY(105vh) rotateZ(360deg);
-            opacity: 0;
+        .story-flower-3 {
+            top: 15%;
+            right: 5%;
         }
     }
+
 
     /* New Section Styling */
+    /* (This part was already here, keeping it for completeness) */
     .section-container {
         @apply w-full max-w-3xl mx-auto py-16 px-4 md:px-8;
         background-color: rgba(255, 255, 255, 0.6);
@@ -847,8 +866,6 @@
     <source src="/Sakhi (pachai nirame) - Bgm ringtone _ download link in discription 👇.mp4" type="video/mp4">
   </video>
 
-  <div id="flower-rain-container"></div>
-
   <img class="corner tl" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   <img class="corner tr" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
   <img class="corner bl" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
@@ -885,12 +902,11 @@
         </div>
       </div>
       
-      <button class="rsvp-btn">RSVP</button>
+      <button class="rsvp-btn" onclick="alert('Thank you for your RSVP!')">RSVP</button>
     </div>
   </div>
 
-<section id="our-story" class="section-container">
-    <h2 class="section-title">Our Story</h2>
+<section id="our-story" class="section-container relative"> <h2 class="section-title">Our Story</h2>
     <div class="our-story-content">
         <div class="our-story-text">
             <p class="mb-4">From a chance encounter to a love that grew, our journey has been filled with laughter, shared dreams, and unwavering support. We are so excited to officially start our next chapter and celebrate with all of you!</p>
@@ -898,6 +914,10 @@
         </div>
         <img src="/WhatsApp Image 2025-07-08 at 19.59.39_3fc053b1.jpg" alt="Christin and Febin's Story" class="our-story-image">
     </div>
+
+    <img class="story-flower-1" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="Flower Decoration">
+    <img class="story-flower-2" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="Flower Decoration">
+    <img class="story-flower-3" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="Flower Decoration">
 </section>
 
 <section id="celebration" class="section-container">
@@ -906,30 +926,30 @@
         <div class="timeline-item timeline-left">
             <div class="timeline-content">
                 <h3>Engagement Ceremony</h3>
-                <p><strong>Date:</strong> February 9, 2024</p>
+                <p><strong>Date:</strong> August 20, 2024</p>
                 <p><strong>Time:</strong> 6:00 PM</p>
-                <p><strong>Venue:</strong>Thrissur</p>
-  
+                <p><strong>Venue:</strong> Rose Garden Event Hall</p>
+                <p>A beautiful evening where we exchanged rings and celebrated our commitment surrounded by immediate family.</p>
             </div>
         </div>
 
         <div class="timeline-item timeline-right">
             <div class="timeline-content">
                 <h3>Pre-Wedding Social</h3>
-                <p><strong>Date:</strong> February 9, 2026</p>
+                <p><strong>Date:</strong> February 13, 2026</p>
                 <p><strong>Time:</strong> 7:00 PM</p>
-                <p><strong>Venue:</strong> Thrissur</p>
-
+                <p><strong>Venue:</strong> The Skylight Lounge</p>
+                <p>A relaxed gathering for all our guests to mingle and kick off the wedding festivities the night before the main event.</p>
             </div>
         </div>
 
         <div class="timeline-item timeline-left">
             <div class="timeline-content">
                 <h3>Wedding Ceremony</h3>
-                <p><strong>Date:</strong> February 9, 2026</p>
+                <p><strong>Date:</strong> February 14, 2026</p>
                 <p><strong>Time:</strong> 4:00 PM onwards</p>
-                <p><strong>Venue:</strong> Thurssir</p>
-         
+                <p><strong>Venue:</strong> The Grand Ballroom, The Elegant Estate</p>
+                <p>Join us as we exchange our vows in a beautiful ceremony, surrounded by our loved ones. Cocktail attire requested.</p>
             </div>
         </div>
 
@@ -938,7 +958,7 @@
                 <h3>Wedding Reception</h3>
                 <p><strong>Date:</strong> February 14, 2026</p>
                 <p><strong>Time:</strong> 7:00 PM onwards</p>
-                <p><strong>Venue:</strong>Kollam</p>
+                <p><strong>Venue:</strong> The Crystal Pavilion, The Elegant Estate</p>
                 <p>Celebrate with us! Enjoy dinner, dancing, and delightful company as we begin our life as a married couple. Formal attire requested.</p>
             </div>
         </div>
@@ -948,7 +968,8 @@
                 <h3>Farewell Brunch</h3>
                 <p><strong>Date:</strong> February 15, 2026</p>
                 <p><strong>Time:</strong> 10:00 AM - 12:00 PM</p>
-                <p><strong>Venue:</strong> Kollam</p>
+                <p><strong>Venue:</strong> The Garden Terrace, The Elegant Estate</p>
+                <p>A casual brunch to say goodbye to our family and friends before they depart.</p>
             </div>
         </div>
 
@@ -958,16 +979,39 @@
 <section id="travel-accommodation" class="section-container">
     <h2 class="section-title">Travel & Stay</h2>
     <div class="section-content">
-        <p>For our out-of-town guests. Please find the details below:</p>
+        <p>For our out-of-town guests, we've arranged for special rates at nearby hotels. Please find the details below:</p>
         <ul class="text-left mx-auto max-w-md">
-            <li><strong>The Grand Hotel:</strong> <a href="#" target="_blank">Book Here</a></li>
-            <li><strong>Comfort Inn & Suites:</strong> <a href="#" target="_blank">Book Here</a></li>
+            <li><strong>The Grand Hotel:</strong> <a href="#" target="_blank">Book Here</a> (mention "Christin & Febin Wedding" for discount)</li>
+            <li><strong>Comfort Inn & Suites:</strong> <a href="#" target="_blank">Book Here</a> (group code: CFWEDDING)</li>
         </ul>
-        <p class="mt-4">The venue is easily accessible by car, from the recommended hotels.</p>
-\
+        <p class="mt-4">The venue is easily accessible by car, and we will provide shuttle services from the recommended hotels.</p>
+        <p class="mt-2"><strong>Nearest Airport:</strong> Cityville International Airport (CVIA)</p>
     </div>
 </section>
 
+<section id="registry" class="section-container">
+    <h2 class="section-title">Registry</h2>
+    <div class="section-content">
+        <p>Your presence at our wedding is the greatest gift of all. However, if you wish to honor us with a gift, we have registered at the following:</p>
+        <ul class="text-left mx-auto max-w-md">
+            <li><a href="#" target="_blank">Zola Wedding Registry</a></li>
+            <li><a href="#" target="_blank">Amazon Wedding Registry</a></li>
+        </ul>
+        <p class="mt-4">Alternatively, contributions towards our dream honeymoon would be greatly appreciated.</p>
+    </div>
+</section>
+
+<section id="gallery" class="section-container">
+    <h2 class="section-title">Gallery</h2>
+    <div class="section-content photo-gallery">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+1" alt="Couple Photo 1">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+2" alt="Couple Photo 2">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+3" alt="Couple Photo 3">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+4" alt="Couple Photo 4">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+5" alt="Couple Photo 5">
+        <img src="https://via.placeholder.com/300x200?text=Couple+Photo+6" alt="Couple Photo 6">
+    </div>
+</section>
 
 <section id="faq" class="section-container">
     <h2 class="section-title">FAQ</h2>
@@ -979,7 +1023,7 @@
         <p class="mb-4">A: Our wedding is strictly by invitation only. Your invitation will specify if you have a plus-one.</p>
 
         <h3 class="text-xl font-semibold text-[#5a4a2a] mb-2">Q: Are children invited?</h3>
-        < class="mb-4">A: While we love your little ones, we've opted for an adult-only celebration to allow everyone to relax and enjoy the evening.</p>
+        <p class="mb-4">A: While we love your little ones, we've opted for an adult-only celebration to allow everyone to relax and enjoy the evening.</p>
 
         <h3 class="text-xl font-semibold text-[#5a4a2a] mb-2">Q: What time should I arrive?</h3>
         <p class="mb-4">A: We recommend arriving 15-30 minutes before the ceremony start time to find your seats.</p>
@@ -992,8 +1036,8 @@
 <section id="contact" class="section-container">
     <h2 class="section-title">Contact Us</h2>
     <div class="section-content">
-        <p>If you have any further questions, please don't hesitate to reach out</p>
-        <p class="mt-4"><strong>Febin & Christin </strong></p>
+        <p>If you have any further questions, please don't hesitate to reach out to our wedding coordinator:</p>
+        <p class="mt-4"><strong>Wedding Coordinator Name</strong></p>
         <p>Email: <a href="mailto:coordinator@example.com">coordinator@example.com</a></p>
         <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
     </div>
@@ -1006,6 +1050,7 @@
   </div>
 
   <script>
+    // On page load
     window.addEventListener('load', function() {
       const video = document.getElementById('bgVideo');
       video.muted = false; // Video will play with sound by default
@@ -1059,108 +1104,8 @@
       }
     });
 
-// Raining Flowers Logic
-    const flowerRainContainer = document.getElementById('flower-rain-container');
-    const ourStorySection = document.getElementById('our-story');
-    const flowerImageSrc = "https://freesvg.org/img/Rosa-muscosa-alba---color.png"; // Use a light flower image
-    let flowerInterval;
-    let flowersActive = false;
+    // Raining Flowers Logic - REMOVED AS REQUESTED
 
-    // --- NEW: Configuration for flower rain based on screen width ---
-    const flowerConfig = {
-      desktop: {
-        interval: 300, // Every 300ms (0.3 seconds)
-        maxFlowers: 80 // Max flowers on screen at once
-      },
-      mobile: {
-        interval: 1500, // Every 1500ms (1.5 seconds) - Much less frequent
-        maxFlowers: 20 // Max flowers on screen at once
-      }
-    };
-
-    function getCurrentFlowerConfig() {
-      // Use a media query check or simply window.innerWidth
-      if (window.innerWidth <= 768) { // Assuming 768px as mobile breakpoint
-        return flowerConfig.mobile;
-      }
-      return flowerConfig.desktop;
-    }
-    // --- END NEW CONFIG ---
-
-    // Function to create a single falling flower
-    function createFallingFlower() {
-        if (!flowersActive) return; // Stop if effect is inactive
-
-        // --- NEW: Limit total flowers on screen ---
-        if (flowerRainContainer.children.length >= getCurrentFlowerConfig().maxFlowers) {
-            return; // Don't create if max limit reached
-        }
-        // --- END NEW LIMIT ---
-
-        const flower = document.createElement('img');
-        flower.src = flowerImageSrc;
-        flower.classList.add('falling-flower');
-
-        // Randomize size
-        const size = Math.random() * 20 + 20; // Size between 20px and 40px
-        flower.style.width = `${size}px`;
-        flower.style.height = `${size}px`;
-
-        // Randomize horizontal position
-        const startX = Math.random() * 100; // 0% to 100% of width
-        flower.style.left = `${startX}vw`;
-
-        // Randomize animation duration (for varied falling speeds)
-        const duration = Math.random() * 8 + 5; // 5 to 13 seconds
-        flower.style.animationDuration = `${duration}s`;
-
-        // Randomize animation delay (to stagger drops)
-        const delay = Math.random() * 0.5; // 0 to 0.5 seconds delay
-        flower.style.animationDelay = `-${delay}s`; // Negative delay starts animation partway through
-
-        // Random initial rotation
-        const initialRotation = Math.random() * 360;
-        flower.style.setProperty('--rotation', `${initialRotation}deg`);
-
-
-        flowerRainContainer.appendChild(flower);
-
-        // Remove flower after it falls off screen to prevent DOM clutter
-        flower.addEventListener('animationend', () => {
-            flower.remove();
-        });
-    }
-
-    // Intersection Observer to detect when "Our Story" section is in view
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // "Our Story" section is in view
-                if (!flowersActive) {
-                    flowersActive = true;
-                    flowerRainContainer.classList.add('active'); // Fade in container
-                    
-                    // --- MODIFIED LINE: Use dynamic interval ---
-                    const currentConfig = getCurrentFlowerConfig();
-                    flowerInterval = setInterval(createFallingFlower, currentConfig.interval); 
-                }
-            } else {
-                // "Our Story" section is out of view
-                if (flowersActive) {
-                    flowersActive = false;
-                    clearInterval(flowerInterval); // Stop generating new flowers
-                    flowerRainContainer.classList.remove('active'); // Fade out container
-
-                    // Optional: Remove all existing flowers after a delay (matching fade-out)
-                    setTimeout(() => {
-                        flowerRainContainer.innerHTML = '';
-                    }, 1000); 
-                }
-            }
-        });
-    }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
-
-    observer.observe(ourStorySection);
   </script>
 </body>
 </html>
