@@ -1,669 +1,799 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Playfair Display', serif;
-    background: linear-gradient(135deg, #ffeef8 0%, #f8e1f4 25%, #e8d5f0 50%, #dac4f7 75%, #ccb2f4 100%);
-    overflow-x: hidden;
-    color: #2c1810;
-}
-
-/* Ensure the loading screen takes full viewport and centers its content */
-.loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
-    display: flex;
-    flex-direction: column; /* Stack items vertically */
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-    z-index: 1000;
-    transition: opacity 2s ease-out; /* Smooth fade-out */
-    text-align: center; /* Added for fallback/consistency */
-}
-
-.loading-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    /* Ensure it takes full available space within its parent to allow centering */
-    height: 100%;
-    width: 100%;
-    max-width: 90%; /* Adjust as needed, prevents content from touching edges on very small screens */
-    padding: 10px; /* Add some padding just in case */
-}
-
-.heart-container {
-    position: relative;
-    width: 300px;
-    height: 300px;
-    margin-bottom: 30px;
-    /* Center the heart container itself */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.pumping-heart {
-    position: absolute;
-    width: 100px;
-    height: 90px;
-    background-color: #ff3366;
-    transform: rotate(-45deg);
-    animation: heartbeat 1.4s ease infinite;
-    top: 50%;
-    left: 50%;
-    margin-top: -45px;
-    margin-left: -50px;
-    z-index: 10;
-    box-shadow: 0 0 40px #ff3366;
-}
-
-.pumping-heart:before,
-.pumping-heart:after {
-    content: '';
-    position: absolute;
-    width: 100px;
-    height: 90px;
-    background-color: #ff3366;
-    border-radius: 50%;
-}
-
-.pumping-heart:before {
-    top: -50px;
-    left: 0;
-}
-
-.pumping-heart:after {
-    top: 0;
-    left: 50px;
-}
-
-.arrow {
-    position: absolute;
-    width: 80px;
-    height: 10px;
-    background-color: white;
-    top: 50%;
-    left: -100px;
-    transform: translateY(-50%);
-    z-index: 15;
-    opacity: 0;
-    animation: shootArrow 2s ease-in-out 2s forwards;
-}
-
-.arrow:after {
-    content: '';
-    position: absolute;
-    right: -10px;
-    top: -10px;
-    width: 0;
-    height: 0;
-    border-left: 20px solid white;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
-}
-
-@keyframes heartbeat {
-    0% { transform: rotate(-45deg) scale(1); }
-    14% { transform: rotate(-45deg) scale(1.3); }
-    28% { transform: rotate(-45deg) scale(1); }
-    42% { transform: rotate(-45deg) scale(1.3); }
-    70% { transform: rotate(-45deg) scale(1); }
-}
-
-@keyframes shootArrow {
-    0% {
-        opacity: 1;
-        left: -100px;
-    }
-    20% {
-        opacity: 1;
-        left: 50%;
-    }
-    80% {
-        opacity: 1;
-        left: 150%;
-    }
-    100% {
-        opacity: 0;
-        left: 150%;
-    }
-}
-
-.loading-text {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3em;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-    opacity: 0;
-    animation: fadeIn 0.5s ease-in-out 1.5s forwards;
-    text-align: center;
-    width: 100%;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-/* Original loading-text animation - combined with fadeIn for clarity */
-@keyframes fadeInOut {
-    0%, 100% { opacity: 0.7; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.05); }
-}
-
-.dove {
-    position: absolute;
-    font-size: 2em;
-    color: white;
-    animation: flyAcross 8s linear infinite;
-}
-
-@keyframes flyAcross {
-    0% { transform: translateX(-100px) translateY(0px); }
-    25% { transform: translateX(25vw) translateY(-20px); }
-    50% { transform: translateX(50vw) translateY(-10px); }
-    75% { transform: translateX(75vw) translateY(-25px); }
-    100% { transform: translateX(100vw) translateY(0px); }
-}
-
-#container {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden; /* Hide Three.js overflow */
-}
-
-#canvas-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-/* Heaven's Gate overlay for interaction and text */
-/* style.css */
-
-.heaven-gate-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 2;
-    pointer-events: auto;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s ease;
-    background-color: rgba(255, 255, 255, 0); /* Initial transparent background */
-    animation: overlayPulse 8s infinite ease-in-out; /* Apply the new background pulse */
-    border: 2px solid transparent; /* Initial transparent border */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
-
-.heaven-gate-overlay:hover {
-    box-shadow: 0 0 30px rgba(255, 107, 157, 0.6); /* Pink glow on hover */
-    border: 2px solid rgba(255, 107, 157, 0.8); /* More visible border on hover */
-}
-
-/* Existing pulse animation for enter-text, enhanced for more impact */
-@keyframes pulse {
-    0% {
-        transform: scale(1);
-        opacity: 0.8;
-        text-shadow: 0 0 8px rgba(255, 255, 255, 0.7); /* Subtle glow */
-    }
-    50% {
-        transform: scale(1.05); /* Slightly larger */
-        opacity: 1;
-        text-shadow: 0 0 15px rgba(255, 255, 255, 1), 0 0 25px rgba(255, 182, 193, 0.8); /* Stronger glow with pink */
-    }
-    100% {
-        transform: scale(1);
-        opacity: 0.8;
-        text-shadow: 0 0 8px rgba(255, 255, 255, 0.7);
-    }
-}
-
-.enter-text {
-    font-size: 1.6em; /* Slightly larger font size */
-    color: #F8BBD0; /* Light pink */
-    font-style: italic;
-    animation: pulse 2s infinite ease-in-out; /* Apply the enhanced pulse animation */
-    letter-spacing: 1px; /* Add some letter spacing */
-    font-weight: 600; /* Make it a bit bolder */
-}
-
-.couple-names {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3.8em; /* Slightly larger for prominence */
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: #FFF;
-    text-shadow: 3px 3px 7px rgba(0,0,0,0.5), 0 0 15px rgba(255,255,255,0.7); /* Enhanced shadow and glow */
-}
-
-.wedding-date {
-    font-family: 'Playfair Display', serif;
-    font-size: 2em; /* Slightly larger */
-    font-weight: 600;
-    color: #FFE0B2;
-    margin-bottom: 15px;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.3); /* Keep existing shadow */
-}
-
-/* Add a new media query for very small screens to ensure text remains readable */
-@media (max-width: 480px) {
-    .enter-text {
-        font-size: 1.1em; /* Adjust for smaller screens */
-    }
-    .couple-names {
-        font-size: 2.2em;
-    }
-    .wedding-date {
-        font-size: 1.2em;
-    }
-}
-
-.church-overlay-text {
-    position: absolute;
-    bottom: 10%; /* Default position for larger screens */
-    width: 100%;
-    text-align: center;
-    pointer-events: none; /* Text itself should not block clicks */
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.4); /* Stronger shadow for readability on 3D */
-}
-
-.couple-names {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3.5em; /* Larger for prominence */
-    font-weight: 700;
-    margin-bottom: 8px;
-    color: #FFF; /* White color for contrast */
-}
-
-.wedding-date {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.8em; /* Larger */
-    font-weight: 600;
-    color: #FFE0B2; /* Light peach/gold */
-    margin-bottom: 15px;
-}
-
-.enter-text {
-    font-size: 1.4em; /* Larger */
-    color: #F8BBD0; /* Light pink */
-    font-style: italic;
-    animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
-
-.invitation-card {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    width: 90%;
-    max-width: 600px;
-    height: 80vh; /* Adjust height for better fit on smaller screens */
-    background: linear-gradient(135deg, rgba(255,255,255,0.95), rgba(255,240,245,0.95));
-    backdrop-filter: blur(20px);
-    border-radius: 20px;
-    border: 2px solid rgba(255,215,0,0.3);
-    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
-    z-index: 100;
-    transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    pointer-events: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 40px;
-    overflow-y: auto; /* Allow scrolling if content overflows */
-}
-
-.invitation-card.open {
-    transform: translate(-50%, -50%) scale(1);
-}
-
-.card-header {
-    margin-bottom: 30px;
-}
-
-.card-couple-names {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3.5em;
-    font-weight: 700;
-    color: #c44569;
-    margin-bottom: 10px;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-}
-
-.card-subtitle {
-    font-size: 1.4em;
-    color: #8b4367;
-    font-style: italic;
-    margin-bottom: 20px;
-}
-
-.valentine-badge {
-    background: linear-gradient(45deg, #ff6b9d, #ff8a80);
-    color: white;
-    padding: 8px 20px;
-    border-radius: 25px;
-    font-size: 1.1em;
-    font-weight: 600;
-    box-shadow: 0 4px 15px rgba(255,107,157,0.3);
-}
-
-.card-details {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-}
-
-.detail-section {
-    margin: 20px 0;
-    padding: 20px;
-    background: rgba(255,255,255,0.5);
-    border-radius: 15px;
-    border-left: 4px solid #ff6b9d;
-}
-
-.detail-title {
-    font-size: 1.3em;
-    font-weight: 600;
-    color: #c44569;
-    margin-bottom: 10px;
-}
-
-.detail-content {
-    font-size: 1.1em;
-    color: #2c1810;
-    line-height: 1.6;
-}
-
-.personal-message {
-    font-style: italic;
-    color: #6b4e7a;
-    font-size: 1.2em;
-    line-height: 1.8;
-    margin: 30px 0;
-    padding: 25px;
-    background: linear-gradient(135deg, rgba(255,182,193,0.2), rgba(255,240,245,0.3));
-    border-radius: 15px;
-    border: 1px solid rgba(255,182,193,0.3);
-}
-
-.rsvp-button {
-    background: linear-gradient(45deg, #ff6b9d, #c44569);
-    color: white;
-    border: none;
-    padding: 15px 40px;
-    font-size: 1.3em;
-    font-weight: 600;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 20px;
-    box-shadow: 0 8px 25px rgba(255,107,157,0.3);
-    font-family: 'Playfair Display', serif;
-}
-
-.rsvp-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 35px rgba(255,107,157,0.4);
-    background: linear-gradient(45deg, #c44569, #ff6b9d);
-}
-
-.close-button {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    font-size: 1.5em;
-    color: #8b4367;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.close-button:hover {
-    background: rgba(255,107,157,0.1);
-    transform: scale(1.1);
-}
-
-.ring-animation {
-    position: absolute;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 2em;
-    color: #ffd700;
-    animation: ringSparkle 3s ease-in-out infinite;
-}
-
-@keyframes ringSparkle {
-    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
-    50% { opacity: 1; transform: translateX(-50%) scale(1.2); }
-}
-
-.music-control {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 1001;
-    background: rgba(255,255,255,0.9);
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-}
-
-.music-control:hover {
-    background: rgba(255,255,255,1);
-    transform: scale(1.1);
-}
-
-.additional-sections {
-    position: absolute;
-    top: 100vh;
-    width: 100%;
-    background: linear-gradient(135deg, #ffeef8 0%, #f8e1f4 100%);
-}
-
-.section {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 80px 20px;
-}
-
-.section-content {
-    max-width: 1000px;
-    text-align: center;
-    background: rgba(255,255,255,0.8);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    padding: 60px;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-}
-
-.section-title {
-    font-family: 'Dancing Script', cursive;
-    font-size: 3em;
-    color: #c44569;
-    margin-bottom: 40px;
-}
-/* style.css */
-
-@keyframes overlayPulse {
-    0% { background-color: rgba(255, 255, 255, 0); }
-    50% { background-color: rgba(255, 240, 245, 0.1); } /* Light pink tint */
-    100% { background-color: rgba(255, 255, 255, 0); }
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .church-overlay-text {
-        bottom: 12%; /* Increased from 8% to raise the text higher for phones */
-    }
-    .couple-names {
-        font-size: 2.2em;
-    }
-    .wedding-date {
-        font-size: 1.2em;
-    }
-    .enter-text {
-        font-size: 1em;
+    /* Global styling */
+    body {
+      @apply min-h-screen flex items-center justify-center text-[#223322] text-center relative overflow-x-hidden;
+      font-family: "Playfair Display", serif;
+      background: radial-gradient(circle at 50% 40%, #f9faf7 0%, #e3eadc 55%, #b3c5a6 100%);
+      padding: 20px;
     }
 
-    .invitation-card {
-        width: 95%; /* Make it slightly wider on smaller screens */
-        height: 90vh; /* Allow more vertical space */
-        padding: 20px; /* Reduce padding */
+    /* Loading screen */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 40%, #f9faf7 0%, #e3eadc 55%, #b3c5a6 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 1s ease-out;
+    }
+    
+    .loading-initials {
+      font-family: 'Alex Brush', cursive;
+      font-size: 5rem;
+      color: #5a4a2a;
+      position: relative;
+      margin-bottom: 2rem;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    }
+    
+    .loading-initials:before, .loading-initials:after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 50px;
+      background: #b39652;
+      top: 50%;
+    }
+    
+    .loading-initials:before {
+      left: -60px;
+    }
+    
+    .loading-initials:after {
+      right: -60px;
+    }
+    
+    .loading-flower {
+      width: 80px;
+      opacity: 0;
+      animation: fadeIn 1.5s forwards, float 4s infinite ease-in-out;
+    }
+    
+    .loading-flower:nth-child(1) {
+      position: absolute;
+      top: 20%;
+      left: 15%;
+      animation-delay: 0.3s, 0s;
+    }
+    
+    .loading-flower:nth-child(2) {
+      position: absolute;
+      top: 20%;
+      right: 15%;
+      animation-delay: 0.5s, 0.5s;
+      transform: scaleX(-1);
+    }
+    
+    .loading-flower:nth-child(3) {
+      position: absolute;
+      bottom: 20%;
+      left: 15%;
+      animation-delay: 0.7s, 1s;
+      transform: rotate(-15deg);
+    }
+    
+    .loading-flower:nth-child(4) {
+      position: absolute;
+      bottom: 20%;
+      right: 15%;
+      animation-delay: 0.9s, 1.5s;
+      transform: scaleX(-1) rotate(15deg);
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 0.8; transform: scale(1); }
+    }
+    
+    .loaded .loading-screen {
+      opacity: 0;
+      pointer-events: none;
     }
 
-    .card-couple-names {
-        font-size: 2.5em; /* Smaller font size for names */
+    /* Floral decorations */
+    .floral-decoration {
+      position: absolute;
+      width: 120px;
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      opacity: 0.8;
+    }
+    
+    /* Corner roses */
+    .corner {
+      position: absolute;
+      width: 200px;
+      pointer-events: none;
+      user-select: none;
+      animation: float 12s infinite ease-in-out;
+      z-index: 0;
+    }
+    .tl { 
+      top: -20px; 
+      left: -20px;
+      animation-delay: 0s;
+    }
+    .tr { 
+      top: -20px; 
+      right: -20px;
+      animation-delay: 3s;
+    }
+    .bl { 
+      bottom: -20px; 
+      left: -20px;
+      animation-delay: 6s;
+    }
+    .br { 
+      bottom: -20px; 
+      right: -20px;
+      animation-delay: 9s;
     }
 
-    .card-subtitle {
-        font-size: 1.1em; /* Smaller subtitle */
+    /* Media controls */
+    .media-controls {
+      display: none; /* Hide media controls since we removed music */
     }
 
-    .valentine-badge {
-        font-size: 0.9em; /* Smaller badge text */
-        padding: 6px 15px; /* Adjust padding */
-    }
-
-    .personal-message {
-        font-size: 1em; /* Smaller message font */
-        padding: 15px; /* Adjust padding */
-        margin: 15px 0; /* Adjust margin */
-    }
-
-    .detail-title {
-        font-size: 1.1em; /* Smaller detail title */
-    }
-
-    .detail-content {
-        font-size: 0.9em; /* Smaller detail content */
-    }
-
-    .rsvp-button {
-        padding: 12px 30px; /* Adjust button padding */
-        font-size: 1.1em; /* Smaller button font */
-    }
-
-    .close-button {
-        font-size: 1.2em; /* Smaller close button */
-        top: 10px; /* Adjust position */
-        right: 10px; /* Adjust position */
-    }
-
-    .ring-animation {
-        font-size: 1.5em; /* Smaller ring animation */
-        bottom: 10px; /* Adjust position */
-    }
-
-    .music-control {
-        width: 40px; /* Smaller music control button */
+    @media (max-width: 639px) {
+      .media-control {
+        width: 40px;
         height: 40px;
-        font-size: 1em;
-        top: 10px;
-        right: 10px;
+      }
+      
+      .media-control i {
+        font-size: 20px;
+      }
     }
-}
+    
+    /* Side flowers */
+    .left-flower-1 { left: 5%; top: 20%; transform: rotate(-15deg); }
+    .left-flower-2 { left: 8%; top: 60%; transform: rotate(10deg); }
+    .right-flower-1 { right: 5%; top: 25%; transform: rotate(15deg) scaleX(-1); }
+    .right-flower-2 { right: 8%; top: 65%; transform: rotate(-10deg) scaleX(-1); }
+    .bottom-flower { bottom: 5%; left: 50%; transform: translateX(-50%) rotate(180deg); }
 
-/* Even smaller screens (e.g., old phones) */
-@media (max-width: 480px) {
-    .church-overlay-text {
-        bottom: 15%; /* Further increased for very small phone screens */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-20px) rotate(5deg);
+      }
     }
+
+    /* Main container */
+    .main-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    /* Wedding content */
+    .wedding-content {
+      margin-top: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      flex-grow: 1;
+    }
+
     .couple-names {
-        font-size: 1.8em;
+      font-family: 'Alex Brush', cursive;
+      font-size: 4.5rem;
+      font-weight: 400;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+      color: #5a4a2a;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+      position: relative;
+      display: inline-block;
     }
+
+    .couple-names:before, .couple-names:after {
+      content: "";
+      position: absolute;
+      height: 2px;
+      width: 50px;
+      background: #b39652;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .couple-names:before {
+      right: calc(100% + 10px);
+    }
+
+    .couple-names:after {
+      left: calc(100% + 10px);
+    }
+
+    .welcome-text {
+      font-size: 2.5rem;
+      font-style: italic;
+      line-height: 1.1;
+      margin-bottom: 5px;
+      text-align: center;
+      width: 100%;
+      font-weight: 500;
+      color: #3a3a3a;
+    }
+
     .wedding-date {
-        font-size: 1em;
-    }
-    .enter-text {
-        font-size: 0.9em;
-    }
-
-    .invitation-card {
-        padding: 15px;
-        height: 95vh; /* Maximize vertical space */
-    }
-
-    .card-couple-names {
-        font-size: 2em;
+      font-size: 1rem;
+      letter-spacing: 4px;
+      margin-bottom: 30px;
+      text-align: center;
+      width: 100%;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      text-transform: uppercase;
+      color: #5a4a2a;
     }
 
-    .card-subtitle {
-        font-size: 0.9em;
+    /* Countdown timer */
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+      font-family: 'Montserrat', sans-serif;
     }
 
-    .valentine-badge {
-        font-size: 0.8em;
-        padding: 5px 10px;
+    .countdown-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 70px;
     }
 
-    .personal-message {
-        font-size: 0.9em;
-        padding: 10px;
-        margin: 10px 0;
+    .countdown-value {
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: #5a4a2a;
+      line-height: 1;
     }
 
-    .detail-section {
-        padding: 15px;
-        margin: 15px 0;
+    .countdown-label {
+      font-size: 0.7rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #7a7a7a;
+      margin-top: 5px;
     }
 
-    .detail-title {
-        font-size: 1em;
+    .rsvp-btn {
+      background-color: #b39652;
+      color: white;
+      padding: 12px 40px;
+      border-radius: 4px;
+      font-size: 1rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      letter-spacing: 1px;
+      position: relative;
+      overflow: hidden;
+      z-index: 1;
     }
 
-    .detail-content {
-        font-size: 0.85em;
+    .rsvp-btn:hover {
+      background-color: #9b7e3f;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    .rsvp-button {
-        padding: 10px 25px;
-        font-size: 1em;
+    .rsvp-btn:active {
+      transform: translateY(0);
     }
-}
 
-/* New animation for music prompt */
-@keyframes fadeInOutMusicPrompt {
-    0% { opacity: 0; transform: translateY(-10px); }
-    10% { opacity: 1; transform: translateY(0); }
-    90% { opacity: 1; transform: translateY(0); }
-    100% { opacity: 0; transform: translateY(-10px); }
-}
+    /* Responsive adjustments */
+    @media (min-width: 640px) {
+      .couple-names {
+        font-size: 5.5rem;
+        margin-bottom: 15px;
+      }
+
+      .welcome-text {
+        font-size: 3rem;
+        margin-bottom: 5px;
+      }
+
+      .wedding-date {
+        font-size: 1.1rem;
+      }
+      
+      .countdown-box {
+        min-width: 80px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .main-container {
+        padding-top: 60px;
+      }
+
+      .couple-names {
+        font-size: 6.5rem;
+      }
+
+      .welcome-text {
+        font-size: 3.5rem;
+      }
+
+      .wedding-date {
+        font-size: 1.2rem;
+        letter-spacing: 6px;
+      }
+      
+      .corner {
+        width: 260px;
+      }
+      
+      .floral-decoration {
+        width: 150px;
+      }
+      
+      .countdown-box {
+        min-width: 100px;
+      }
+      
+      .countdown-value {
+        font-size: 3rem;
+      }
+    }
+    
+    @media (max-width: 639px) {
+      .corner {
+        width: 100px;
+      }
+      .floral-decoration {
+        width: 50px;
+      }
+
+      .left-flower-1 { left: 0%; top: 25%; }
+      .left-flower-2 { left: 0%; top: 50%; }
+      .right-flower-1 { right: 0%; top: 30%; }
+      .right-flower-2 { right: 0%; top: 55%; }
+      .bottom-flower { bottom: 0%; }
+      
+      .couple-names {
+        font-size: 3rem;
+        margin-bottom: 15px;
+        position: relative;
+        display: inline-block;
+        text-align: center;
+      }
+      
+      .couple-names:before, 
+      .couple-names:after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 30px;
+        background: #b39652;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      
+      .couple-names:before {
+        right: calc(100% + 10px);
+      }
+      
+      .couple-names:after {
+        left: calc(100% + 10px);
+      }
+      
+      .welcome-text {
+        font-size: 2rem;
+      }
+      
+      .wedding-date {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+      }
+      
+      .countdown-container {
+        gap: 10px;
+      }
+      
+      .countdown-box {
+        min-width: 55px;
+      }
+      
+      .countdown-value {
+        font-size: 1.8rem;
+      }
+
+      .countdown-label {
+        margin-top: 8px;
+      }
+
+      .main-container {
+        padding: 20px 15px;
+        min-height: calc(100vh - 40px);
+      }
+      
+      .welcome-text {
+        margin-bottom: 15px;
+      }
+      
+      .wedding-date {
+        margin-bottom: 25px;
+      }
+      
+      .countdown-container {
+        margin-bottom: 30px;
+      }
+    }
+
+    /* New Story Section Floral Accents */
+    .section-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .story-flower-1,
+    .story-flower-2,
+    .story-flower-3 {
+        position: absolute;
+        width: 80px;
+        opacity: 0.7;
+        pointer-events: none;
+        user-select: none;
+        z-index: 0;
+        animation: float 10s infinite ease-in-out alternate;
+    }
+
+    .story-flower-1 {
+        top: 10%;
+        left: 5%;
+        transform: rotate(-20deg);
+        animation-delay: 0s;
+    }
+
+    .story-flower-2 {
+        bottom: 15%;
+        right: 8%;
+        transform: rotate(10deg) scaleX(-1);
+        animation-delay: 2s;
+    }
+
+    .story-flower-3 {
+        top: 25%;
+        right: 15%;
+        transform: rotate(45deg);
+        animation-delay: 4s;
+    }
+
+    @media (max-width: 768px) {
+        .story-flower-1,
+        .story-flower-2,
+        .story-flower-3 {
+            width: 50px;
+            opacity: 0.5;
+        }
+        .story-flower-1 {
+            top: 5%;
+            left: 0%;
+        }
+        .story-flower-2 {
+            bottom: 5%;
+            right: 0%;
+        }
+        .story-flower-3 {
+            top: 15%;
+            right: 5%;
+        }
+    }
+
+    /* Section Styling */
+    .section-container {
+        @apply w-full max-w-3xl mx-auto py-16 px-4 md:px-8;
+        background-color: rgba(255, 255, 255, 0.6);
+        border-radius: 10px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        margin-top: 40px;
+        margin-bottom: 40px;
+        text-align: center;
+    }
+
+    .section-title {
+        font-family: 'Alex Brush', cursive;
+        @apply text-5xl md:text-6xl text-[#5a4a2a] mb-8 relative inline-block;
+    }
+
+    .section-title::before, .section-title::after {
+        content: "";
+        position: absolute;
+        height: 2px;
+        width: 40px;
+        background: #b39652;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .section-title::before {
+        left: -50px;
+    }
+
+    .section-title::after {
+        right: -50px;
+    }
+
+    .section-content {
+        @apply text-lg text-[#223322] leading-relaxed;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 400;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    .section-content ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    .section-content ul li {
+        margin-bottom: 10px;
+    }
+
+    .section-content a {
+        color: #b39652;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+    }
+
+    .section-content a:hover {
+        color: #9b7e3f;
+    }
+
+    .photo-gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .photo-gallery img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+
+    .photo-gallery img:hover {
+        transform: scale(1.03);
+    }
+
+    /* Our Story specific styling */
+    .our-story-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+        text-align: center;
+    }
+
+    .our-story-image {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        border-radius: 10px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        border: 3px solid #b39652;
+        object-fit: cover;
+    }
+
+    .our-story-text {
+        flex: 1;
+        text-align: center;
+    }
+
+    @media (min-width: 768px) {
+        .section-title {
+            font-size: 3.5rem;
+            margin-bottom: 40px;
+        }
+        .section-title::before, .section-title::after {
+            width: 30px;
+            left: -40px;
+            right: -40px;
+        }
+        .section-container {
+            padding: 30px 20px;
+        }
+        .our-story-content {
+            flex-direction: row;
+            text-align: left;
+        }
+        .our-story-image {
+            order: 2;
+            margin-left: 30px;
+        }
+        .our-story-text {
+            order: 1;
+        }
+    }
+
+    @media (max-width: 639px) {
+        .section-title {
+            font-size: 3rem;
+            margin-bottom: 30px;
+        }
+        .section-title::before, .section-title::after {
+            width: 20px;
+            left: -30px;
+            right: -30px;
+        }
+        .section-content {
+            font-size: 1rem;
+        }
+        .photo-gallery {
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        }
+        .our-story-image {
+            max-width: 250px;
+        }
+    }
+
+    /* Timeline Section Styling */
+    .timeline {
+        position: relative;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px 0;
+    }
+
+    .timeline::after {
+        content: '';
+        position: absolute;
+        width: 3px;
+        background-color: #b39652;
+        top: 0;
+        bottom: 0;
+        left: 50%;
+        margin-left: -1.5px;
+        z-index: 0;
+    }
+
+    .timeline-item {
+        padding: 10px 40px;
+        position: relative;
+        background-color: inherit;
+        width: 50%;
+        box-sizing: border-box;
+        /* Animation properties for initial state */
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .timeline-item.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .timeline-item::after {
+        content: '';
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        right: -10px;
+        background-color: white;
+        border: 3px solid #b39652;
+        top: 15px;
+        border-radius: 50%;
+        z-index: 1;
+    }
+
+    /* Left-aligned items */
+    .timeline-left {
+        left: 0;
+        text-align: right;
+    }
+
+    .timeline-left::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        right: 30px;
+        border: medium solid white;
+        border-width: 10px 0 10px 10px;
+        border-color: transparent transparent transparent white;
+    }
+
+    .timeline-left::after {
+        left: calc(100% - 10px);
+    }
+
+    /* Right-aligned items */
+    .timeline-right {
+        left: 50%;
+        text-align: left;
+    }
+
+    .timeline-right::before {
+        content: " ";
+        height: 0;
+        position: absolute;
+        top: 22px;
+        width: 0;
+        z-index: 1;
+        left: 30px;
+        border: medium solid white;
+        border-width: 10px 10px 10px 0;
+        border-color: transparent white transparent transparent;
+    }
+
+    .timeline-content {
+        padding: 20px 30px;
+        background-color: white;
+        position: relative;
+        border-radius: 6px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        border: 1px solid rgba(179, 150, 82, 0.2);
+    }
+    
+    .timeline-content h3 {
+        font-family: 'Playfair Display', serif;
+        @apply text-xl md:text-2xl font-semibold text-[#5a4a2a] mb-2;
+    }
+
+    .timeline-content p {
+        font-family: 'Montserrat', sans-serif;
+        @apply text-base text-[#223322] leading-normal;
+    }
+
+    /* Media queries for responsiveness */
+    @media screen and (max-width: 768px) {
+        .timeline::after {
+            left: 20px;
+        }
+
+        .timeline-item {
+            width: 100%;
+            padding-left: 50px;
+            padding-right: 15px;
+            text-align: left;
+        }
+
+        .timeline-item::before {
+            left: 40px;
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+
+        .timeline-item::after {
+            left: 10px;
+        }
+
+        .timeline-right {
+            left: 0%;
+        }
+    }
