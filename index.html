@@ -165,35 +165,7 @@
 
     /* Media controls */
     .media-controls {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 100;
-    }
-
-    .media-control {
-      background: rgba(255, 255, 255, 0.7);
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: all 0.3s;
-    }
-
-    .media-control:hover {
-      background: rgba(255, 255, 255, 0.9);
-      transform: scale(1.1);
-    }
-
-    .media-control i {
-      font-size: 24px;
-      color: #5a4a2a;
+      display: none; /* Hide media controls since we removed music */
     }
 
     @media (max-width: 639px) {
@@ -855,20 +827,20 @@
   </style>
 </head>
 <body>
+   <audio controls autoplay loop>
+        <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
+        <source src="Catch Me If I Fall.wav" type="audio/wav">
+    </audio>
 
-    <audio id="bgMusic" loop>
-    <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
-  </audio>
+    <p>Dreaming On</p>
+    <audio controls>
+        <source src="Dreaming On.mp3">
+    </audio>
 
-    <div class="media-controls">
-    <div class="media-control" id="playPauseBtn">
-      <i class="fas fa-play"></i>
-    </div>
-    <div class="media-control" id="muteBtn">
-      <i class="fas fa-volume-up"></i>
-    </div>
-  </div>
+    <p>Losing My Mind</p>
+    <audio controls>
+        <source src="Losing My Mind.mp3">
+    </audio>
 
   <div class="loading-screen">
     <div class="loading-initials">C & F</div>
@@ -915,7 +887,7 @@
         </div>
       </div>
       
-      <button class="rsvp-btn" onclick="alert('Thank you for your RSVP!')">RSVP</button>
+      <!-- <button class="rsvp-btn" onclick="alert('Thank you for your RSVP!')">RSVP</button/> -->
     </div>
   </div>
 
@@ -939,30 +911,30 @@
     <div class="timeline">
         <div class="timeline-item timeline-left">
             <div class="timeline-content">
-                <h3>Engagement Ceremony</h3>
+                <h3>Engagement Holy Qurbana</h3>
                 <p><strong>Date:</strong> February,9th 2026</p>
-                <p><strong>Time:</strong> 6:00 PM</p>
-                <p><strong>Venue:</strong> Thrissur</p>
+                <p><strong>Time:</strong> 3:00 PM</p>
+                <p><strong>Venue:</strong> St. Mary's Church, Vennor, Thrissur</p>
             
             </div>
         </div>
 
         <div class="timeline-item timeline-right">
             <div class="timeline-content">
-                <h3>Pre-Wedding Social</h3>
+                <h3>Engagement Reception</h3>
                 <p><strong>Date:</strong> February,9th 2026</p>
-                <p><strong>Time:</strong> 7:00 PM</p>
-                <p><strong>Venue:</strong> Thrissur</p>
+                <p><strong>Time:</strong> 6:00 PM</p>
+                <p><strong>Venue:</strong> Agape Parish Hall Kadukutty, Thrissur</p>
           
             </div>
         </div>
 
         <div class="timeline-item timeline-left">
             <div class="timeline-content">
-                <h3>Wedding Ceremony</h3>
+                <h3>Wedding Holy Qurbana</h3>
                 <p><strong>Date:</strong> February,14th 2026</p>
-                <p><strong>Time:</strong> 4:00 PM onwards</p>
-                <p><strong>Venue:</strong> Kollam</p>
+                <p><strong>Time:</strong> 3:00 PM </p>
+                <p><strong>Venue:</strong> NithyaSahaya Matha Church, Kollam</p>
           
             </div>
         </div>
@@ -971,8 +943,8 @@
             <div class="timeline-content">
                 <h3>Wedding Reception</h3>
                 <p><strong>Date:</strong> February 14, 2026</p>
-                <p><strong>Time:</strong> 7:00 PM onwards</p>
-                <p><strong>Venue:</strong> Kollam</p>
+                <p><strong>Time:</strong> 6:00 PM </p>
+                <p><strong>Venue:</strong> K G Convention Centre, Punalur, Kollam</p>
             
             </div>
         </div>
@@ -1054,55 +1026,8 @@
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
-    // Music controls
+    // Intersection Observer for Celebration Section
     document.addEventListener('DOMContentLoaded', function() {
-      const bgMusic = document.getElementById('bgMusic');
-      const playPauseBtn = document.getElementById('playPauseBtn');
-      const muteBtn = document.getElementById('muteBtn');
-      
-      // Try to autoplay (note: many browsers block this without user interaction)
-      bgMusic.volume = 0.3; // Set lower volume by default
-      const playPromise = bgMusic.play();
-      
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          // Autoplay was prevented, show paused state
-          playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-        });
-      }
-      
-      // Play/Pause button
-      playPauseBtn.addEventListener('click', function() {
-        if (bgMusic.paused) {
-          bgMusic.play();
-          playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-        } else {
-          bgMusic.pause();
-          playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-        }
-      });
-      
-      // Mute button
-      muteBtn.addEventListener('click', function() {
-        if (bgMusic.muted) {
-          bgMusic.muted = false;
-          muteBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
-        } else {
-          bgMusic.muted = true;
-          muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-        }
-      });
-      
-      // Update button states based on audio state
-      bgMusic.addEventListener('play', function() {
-        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
-      });
-      
-      bgMusic.addEventListener('pause', function() {
-        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
-      });
-
-      // Intersection Observer for Celebration Section
       const timelineItems = document.querySelectorAll('.timeline-item');
 
       const observerOptions = {
