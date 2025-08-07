@@ -827,40 +827,11 @@
   </style>
 </head>
 <body>
-<audio id="bgMusic" loop>
+<audio id="bgMusic" loop muted autoplay>
   <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
 </audio>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  const audio = document.getElementById('bgMusic');
-  audio.volume = 0.5; // 50% volume
-  
-  // Try autoplay first
-  const playPromise = audio.play();
-  
-  // If autoplay fails, show play button
-  if (playPromise !== undefined) {
-    playPromise.catch(error => {
-      showPlayButton();
-    });
-  }
-});
 
-function showPlayButton() {
-  const btn = document.createElement('button');
-  btn.textContent = '▶ Play Music';
-  btn.style.position = 'fixed';
-  btn.style.bottom = '20px';
-  btn.style.right = '20px';
-  btn.style.zIndex = '1000';
-  btn.onclick = function() {
-    document.getElementById('bgMusic').play();
-    btn.remove();
-  };
-  document.body.appendChild(btn);
-}
-</script>
   <div class="loading-screen">
     <div class="loading-initials">C & F</div>
     <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
@@ -1013,6 +984,26 @@ function showPlayButton() {
         <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
     </div>
 </section>
+
+<script>
+window.onload = function() {
+  const audio = document.getElementById('bgMusic');
+  
+  // Unmute after a short delay (works in many browsers)
+  setTimeout(() => {
+    audio.muted = false;
+    audio.volume = 0.3;
+  }, 1000);
+  
+  // If still not playing, show play button
+  setTimeout(() => {
+    if (audio.paused) {
+      showPlayButton();
+    }
+  }, 2000);
+};
+</script>
+
 
 <script>
     // On page load, fade out loading screen
