@@ -827,12 +827,29 @@
   </style>
 </head>
 <body>
-<audio id="bgMusic" loop muted autoplay>
-  <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
-</audio>
 
+<video id="videoBg" loop autoplay>
+  <source src="/Sakhi (pachai nirame) - Bgm ringtone _ download link in discription 👇.mp4" type="video/mp4">
+</video>
 
-  <div class="loading-screen">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const video = document.getElementById('videoBg');
+  
+  // Try to unmute after user interacts with page
+  document.body.onclick = function() {
+    video.muted = false;
+    video.volume = 0.5;
+  };
+  
+  // Fallback if audio doesn't play
+  setTimeout(() => {
+    if (video.muted || video.volume === 0) {
+      showPlayButton();
+    }
+  }, 3000);
+});
+</script>  <div class="loading-screen">
     <div class="loading-initials">C & F</div>
     <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
     <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
@@ -984,26 +1001,6 @@
         <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
     </div>
 </section>
-
-<script>
-window.onload = function() {
-  const audio = document.getElementById('bgMusic');
-  
-  // Unmute after a short delay (works in many browsers)
-  setTimeout(() => {
-    audio.muted = false;
-    audio.volume = 0.3;
-  }, 1000);
-  
-  // If still not playing, show play button
-  setTimeout(() => {
-    if (audio.paused) {
-      showPlayButton();
-    }
-  }, 2000);
-};
-</script>
-
 
 <script>
     // On page load, fade out loading screen
