@@ -827,21 +827,40 @@
   </style>
 </head>
 <body>
-   <audio controls autoplay loop>
-        <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
-        <source src="Catch Me If I Fall.wav" type="audio/wav">
-    </audio>
+<audio id="bgMusic" loop>
+  <source src="/pachai-nirame-alaipayuthey-flute-ringtone-42636.mp3" type="audio/mpeg">
+</audio>
 
-    <p>Dreaming On</p>
-    <audio controls>
-        <source src="Dreaming On.mp3">
-    </audio>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const audio = document.getElementById('bgMusic');
+  audio.volume = 0.5; // 50% volume
+  
+  // Try autoplay first
+  const playPromise = audio.play();
+  
+  // If autoplay fails, show play button
+  if (playPromise !== undefined) {
+    playPromise.catch(error => {
+      showPlayButton();
+    });
+  }
+});
 
-    <p>Losing My Mind</p>
-    <audio controls>
-        <source src="Losing My Mind.mp3">
-    </audio>
-
+function showPlayButton() {
+  const btn = document.createElement('button');
+  btn.textContent = '▶ Play Music';
+  btn.style.position = 'fixed';
+  btn.style.bottom = '20px';
+  btn.style.right = '20px';
+  btn.style.zIndex = '1000';
+  btn.onclick = function() {
+    document.getElementById('bgMusic').play();
+    btn.remove();
+  };
+  document.body.appendChild(btn);
+}
+</script>
   <div class="loading-screen">
     <div class="loading-initials">C & F</div>
     <img class="loading-flower" src="https://freesvg.org/img/Rosa-muscosa-alba---color.png" alt="">
