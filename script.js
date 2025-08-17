@@ -1,57 +1,101 @@
+// On page load, fade out loading screen
+window.addEventListener('load', function() {
+  document.body.classList.add('loaded');
+  
+  setTimeout(function() {
+    document.querySelector('.loading-screen').style.display = 'none';
+  }, 1000);  
+});
 
-    window.addEventListener('load', function() {
-      const video = document.getElementById('bgVideo');
-      video.muted = false; // Video will play with sound by default
-      video.play().catch(e => console.log("Play failed:", e));
+// Countdown timer
+function updateCountdown() {
+  const weddingDate = new Date("February 14, 2026 00:00:00").getTime();
+  const now = new Date().getTime();
+  const distance = weddingDate - now;
+  
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  
+  document.getElementById("days").textContent = days.toString().padStart(2, '0');
+  document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
+  document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
+  document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
+}
 
-      // After everything is loaded, wait 1.5 seconds then fade out
-      setTimeout(function() {
-        document.body.classList.add('loaded');
-        
-        // Remove loading screen after fade out completes
-        setTimeout(function() {
-          document.querySelector('.loading-screen').style.display = 'none';
-        }, 1000);
-      }, 2000);
-    });
+// Update every second
+updateCountdown();
+setInterval(updateCountdown, 1000);
 
-    // Countdown timer
-    function updateCountdown() {
-      const weddingDate = new Date("February 14, 2026 00:00:00").getTime();
-      const now = new Date().getTime();
-      const distance = weddingDate - now;
-      
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      
-      document.getElementById("days").textContent = days.toString().padStart(2, '0');
-      document.getElementById("hours").textContent = hours.toString().padStart(2, '0');
-      document.getElementById("minutes").textContent = minutes.toString().padStart(2, '0');
-      document.getElementById("seconds").textContent = seconds.toString().padStart(2, '0');
-    }
-    
-    // Update every second
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+// Intersection Observer for Celebration Section
+document.addEventListener('DOMContentLoaded', function() {
+  const timelineItems = document.querySelectorAll('.timeline-item');
 
+  const observerOptions = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  };
 
-    // Video toggle
-    document.getElementById('videoToggle').addEventListener('click', function() {
-      const video = document.getElementById('bgVideo');
-      const icon = this.querySelector('i');
-      if (video.paused) {
-        video.play();
-        icon.classList.remove('fa-video-slash');
-        icon.classList.add('fa-video');
-      } else {
-        video.pause();
-        icon.classList.remove('fa-video');
-        icon.classList.add('fa-video-slash');
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
       }
     });
+  }, observerOptions);
 
+  timelineItems.forEach(item => {
+    observer.observe(item);
+  });
+
+  // Music handling
+  const music = document.getElementById('weddingMusic');
+  music.volume = 0.5; // Set volume to 50% so it's not too loud
+
+  function showMusicControls() {
+    const musicControls = document.createElement('div');
+    musicControls.className = 'music-controls';
+    musicControls.innerHTML = `
+      <button onclick="toggleMusic()" class="text-[#5a4a2a]">
+        <i class="fas fa-play"></i>
+      </button>
+    `;
+    document.body.appendChild(musicControls);
+  }
+
+  function toggleMusic() {
+    if (music.paused) {
+      music.play();
+      document.querySelector('.music-controls i').classList.remove('fa-play');
+      document.querySelector('.music-controls i').classList.add('fa-pause');
+    } else {
+      music.pause();
+      document.querySelector('.music-controls i').classList.remove('fa-pause');
+      document.querySelector('.music-controls i').classList.add('fa-play');
+    }
+  }
+
+  // Try to play music automatically (may be blocked by browser)
+  const playPromise = music.play();
+  
+  if (playPromise !== undefined) {
+    playPromise.catch(error => {
+      // Autoplay was prevented - show play button
+      showMusicControls();
+    });
+  }
+
+  // Also try to play on first user interaction
+  document.body.addEventListener('click', function firstInteraction() {
+    music.play().catch(e => console.log("Playback failed:", e));
+    document.body.removeEventListener('click', firstInteraction);
+  }, { once: true });
+});
+
+// Raining Flowers Logic (keep your existing code for this)
     // Raining Flowers Logic
     const flowerRainContainer = document.getElementById('flower-rain-container');
     const ourStorySection = document.getElementById('our-story');
@@ -125,3 +169,40 @@
     }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
 
     observer.observe(ourStorySection);
+
+     // Add this to your existing script section
+  document.addEventListener('DOMContentLoaded', function() {
+    // Try to play music after user interaction (to comply with autoplay policies)
+    function playMusic() {
+      const music = document.getElementById('weddingMusic');
+      const playPromise = music.play();
+      
+      if (playPromise !== undefined) {
+        playPromise.catch(error => {
+          // Autoplay was prevented - show play button
+          console.log('Autoplay prevented, showing play button');
+          showMusicControls();
+        });
+      }
+    }
+    
+    function showMusicControls() {
+      const musicControls = document.createElement('div');
+      musicControls.className = 'music-controls fixed bottom-4 right-4 bg-white p-2 rounded-full shadow-lg';
+      musicControls.innerHTML = `
+        <button onclick="document.getElementById('weddingMusic').play()" class="text-[#5a4a2a]">
+          <i class="fas fa-play"></i>
+        </button>
+      `;
+      document.body.appendChild(musicControls);
+    }
+    
+    // Try to play when loading screen disappears
+    document.querySelector('.loading-screen').addEventListener('transitionend', playMusic);
+    
+    // Also try to play on first user interaction
+    document.body.addEventListener('click', function firstInteraction() {
+      playMusic();
+      document.body.removeEventListener('click', firstInteraction);
+    }, { once: true });
+  });

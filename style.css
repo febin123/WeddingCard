@@ -96,6 +96,22 @@
       pointer-events: none;
     }
 
+ /* Add this to your CSS */
+  .music-controls button {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid #5a4a2a;
+  }
+  
+  .music-controls i {
+    font-size: 1.2rem;
+  }
+
     /* Floral decorations */
     .floral-decoration {
       position: absolute;
