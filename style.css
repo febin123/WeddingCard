@@ -5,6 +5,39 @@
       background: radial-gradient(circle at 50% 40%, #f9faf7 0%, #e3eadc 55%, #b3c5a6 100%);
       padding: 20px;
     }
+    .music-controls {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.8);
+  padding: 0.5rem;
+  border-radius: 50%;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.music-controls.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.music-controls button {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid #5a4a2a;
+  color: #5a4a2a;
+  cursor: pointer;
+}
+
+.music-controls i {
+  font-size: 1.2rem;
+}
 
     /* Loading screen */
     .loading-screen {

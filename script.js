@@ -28,57 +28,44 @@ function updateCountdown() {
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-// Intersection Observer for Celebration Section
-document.addEventListener('DOMContentLoaded', function() {
-  const timelineItems = document.querySelectorAll('.timeline-item');
-
-  const observerOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 0.1
-  };
-
-  const observer = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  timelineItems.forEach(item => {
-    observer.observe(item);
-  });
-
-  // Music handling
+// Music Handling
+function setupMusic() {
   const music = document.getElementById('weddingMusic');
-  music.volume = 0.5; // Set volume to 50% so it's not too loud
-
-  function showMusicControls() {
-    const musicControls = document.createElement('div');
-    musicControls.className = 'music-controls';
-    musicControls.innerHTML = `
-      <button onclick="toggleMusic()" class="text-[#5a4a2a]">
-        <i class="fas fa-play"></i>
-      </button>
-    `;
-    document.body.appendChild(musicControls);
-  }
-
+  const musicControls = document.getElementById('music-controls');
+  const toggleBtn = document.getElementById('toggleMusic');
+  const icon = toggleBtn.querySelector('i');
+  
+  // Set initial volume (50%)
+  music.volume = 0.5;
+  
+  // Toggle music play/pause
   function toggleMusic() {
     if (music.paused) {
-      music.play();
-      document.querySelector('.music-controls i').classList.remove('fa-play');
-      document.querySelector('.music-controls i').classList.add('fa-pause');
+      music.play()
+        .then(() => {
+          icon.classList.remove('fa-play');
+          icon.classList.add('fa-pause');
+          musicControls.classList.remove('hidden');
+        })
+        .catch(error => {
+          console.error("Playback failed:", error);
+        });
     } else {
       music.pause();
-      document.querySelector('.music-controls i').classList.remove('fa-pause');
-      document.querySelector('.music-controls i').classList.add('fa-play');
+      icon.classList.remove('fa-pause');
+      icon.classList.add('fa-play');
     }
   }
-
-  // Try to play music automatically (may be blocked by browser)
+  
+  // Show controls when needed
+  function showMusicControls() {
+    musicControls.classList.remove('hidden');
+  }
+  
+  // Event listeners
+  toggleBtn.addEventListener('click', toggleMusic);
+  
+  // Try to play automatically (may be blocked by browser)
   const playPromise = music.play();
   
   if (playPromise !== undefined) {
@@ -87,122 +74,86 @@ document.addEventListener('DOMContentLoaded', function() {
       showMusicControls();
     });
   }
-
+  
   // Also try to play on first user interaction
   document.body.addEventListener('click', function firstInteraction() {
-    music.play().catch(e => console.log("Playback failed:", e));
+    music.play()
+      .then(() => {
+        icon.classList.remove('fa-play');
+        icon.classList.add('fa-pause');
+        musicControls.classList.remove('hidden');
+      })
+      .catch(e => console.log("Playback failed:", e));
     document.body.removeEventListener('click', firstInteraction);
   }, { once: true });
+}
+
+// Initialize everything when DOM is ready
+document.addEventListener('DOMContentLoaded', function() {
+  // Timeline animation
+  const timelineItems = document.querySelectorAll('.timeline-item');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  timelineItems.forEach(item => observer.observe(item));
+  
+  // Setup music
+  setupMusic();
+  
+  // Setup flower rain effect if element exists
+  if (document.getElementById('flower-rain-container')) {
+    setupFlowerRain();
+  }
 });
 
-// Raining Flowers Logic (keep your existing code for this)
-    // Raining Flowers Logic
-    const flowerRainContainer = document.getElementById('flower-rain-container');
-    const ourStorySection = document.getElementById('our-story');
-    const flowerImageSrc = "https://freesvg.org/img/Rosa-muscosa-alba---color.png"; // Use a light flower image
-    let flowerInterval;
-    let flowersActive = false;
+// Flower rain effect (only if needed)
+function setupFlowerRain() {
+  const flowerRainContainer = document.getElementById('flower-rain-container');
+  const ourStorySection = document.getElementById('our-story');
+  const flowerImageSrc = "https://freesvg.org/img/Rosa-muscosa-alba---color.png";
+  let flowerInterval;
+  let flowersActive = false;
 
-    // Function to create a single falling flower
-    function createFallingFlower() {
-        if (!flowersActive) return; // Stop if effect is inactive
+  function createFallingFlower() {
+    if (!flowersActive) return;
 
-        const flower = document.createElement('img');
-        flower.src = flowerImageSrc;
-        flower.classList.add('falling-flower');
+    const flower = document.createElement('img');
+    flower.src = flowerImageSrc;
+    flower.classList.add('falling-flower');
 
-        // Randomize size
-        const size = Math.random() * 20 + 20; // Size between 20px and 40px
-        flower.style.width = `${size}px`;
-        flower.style.height = `${size}px`;
+    const size = Math.random() * 20 + 20;
+    flower.style.width = `${size}px`;
+    flower.style.height = `${size}px`;
+    flower.style.left = `${Math.random() * 100}vw`;
+    flower.style.animationDuration = `${Math.random() * 8 + 5}s`;
+    flower.style.animationDelay = `-${Math.random() * 0.5}s`;
+    flower.style.setProperty('--rotation', `${Math.random() * 360}deg`);
 
-        // Randomize horizontal position
-        const startX = Math.random() * 100; // 0% to 100% of width
-        flower.style.left = `${startX}vw`;
+    flowerRainContainer.appendChild(flower);
+    flower.addEventListener('animationend', () => flower.remove());
+  }
 
-        // Randomize animation duration (for varied falling speeds)
-        const duration = Math.random() * 8 + 5; // 5 to 13 seconds
-        flower.style.animationDuration = `${duration}s`;
-
-        // Randomize animation delay (to stagger drops)
-        const delay = Math.random() * 0.5; // 0 to 0.5 seconds delay
-        flower.style.animationDelay = `-${delay}s`; // Negative delay starts animation partway through
-
-        // Random initial rotation
-        const initialRotation = Math.random() * 360;
-        flower.style.setProperty('--rotation', `${initialRotation}deg`);
-
-
-        flowerRainContainer.appendChild(flower);
-
-        // Remove flower after it falls off screen to prevent DOM clutter
-        flower.addEventListener('animationend', () => {
-            flower.remove();
-        });
-    }
-
-    // Intersection Observer to detect when "Our Story" section is in view
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // "Our Story" section is in view
-                if (!flowersActive) {
-                    flowersActive = true;
-                    flowerRainContainer.classList.add('active'); // Fade in container
-                    // MODIFIED LINE: Increased interval for even fewer flowers
-                    flowerInterval = setInterval(createFallingFlower, 1000); // Generate a flower every 1000ms (1 second)
-                }
-            } else {
-                // "Our Story" section is out of view
-                if (flowersActive) {
-                    flowersActive = false;
-                    clearInterval(flowerInterval); // Stop generating new flowers
-                    flowerRainContainer.classList.remove('active'); // Fade out container
-
-                    // Optional: Remove all existing flowers after a delay (matching fade-out)
-                    setTimeout(() => {
-                        flowerRainContainer.innerHTML = '';
-                    }, 1000); 
-                }
-            }
-        });
-    }, { threshold: 0.5 }); // Trigger when 50% of the section is visible
-
-    observer.observe(ourStorySection);
-
-     // Add this to your existing script section
-  document.addEventListener('DOMContentLoaded', function() {
-    // Try to play music after user interaction (to comply with autoplay policies)
-    function playMusic() {
-      const music = document.getElementById('weddingMusic');
-      const playPromise = music.play();
-      
-      if (playPromise !== undefined) {
-        playPromise.catch(error => {
-          // Autoplay was prevented - show play button
-          console.log('Autoplay prevented, showing play button');
-          showMusicControls();
-        });
+  const flowerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (!flowersActive) {
+          flowersActive = true;
+          flowerRainContainer.classList.add('active');
+          flowerInterval = setInterval(createFallingFlower, 1000);
+        }
+      } else if (flowersActive) {
+        flowersActive = false;
+        clearInterval(flowerInterval);
+        flowerRainContainer.classList.remove('active');
+        setTimeout(() => flowerRainContainer.innerHTML = '', 1000);
       }
-    }
-    
-    function showMusicControls() {
-      const musicControls = document.createElement('div');
-      musicControls.className = 'music-controls fixed bottom-4 right-4 bg-white p-2 rounded-full shadow-lg';
-      musicControls.innerHTML = `
-        <button onclick="document.getElementById('weddingMusic').play()" class="text-[#5a4a2a]">
-          <i class="fas fa-play"></i>
-        </button>
-      `;
-      document.body.appendChild(musicControls);
-    }
-    
-    // Try to play when loading screen disappears
-    document.querySelector('.loading-screen').addEventListener('transitionend', playMusic);
-    
-    // Also try to play on first user interaction
-    document.body.addEventListener('click', function firstInteraction() {
-      playMusic();
-      document.body.removeEventListener('click', firstInteraction);
-    }, { once: true });
-  });
+    });
+  }, { threshold: 0.5 });
+
+  flowerObserver.observe(ourStorySection);
+}
